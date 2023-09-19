@@ -42,26 +42,59 @@ public class Player {
     }
 
     public void update() {
+
+
         if (keys[KeyEvent.VK_W] && canJump) {
-            velocityY -= blockSpeed;
+            velocityY -= jumpSpeed;
+            canJump = false;
         }
         if (keys[KeyEvent.VK_S]) velocityY += blockSpeed;
         if (keys[KeyEvent.VK_A]) velocityX -= blockSpeed;
         if (keys[KeyEvent.VK_D]) velocityX += blockSpeed;
 
-        if (collidesWithMap()) {
-        	System.out.println("Hit");
-        }
-
         velocityCalc(velocityX);
         velocityCalc(velocityY);
 
         x += velocityX;
-        y += velocityY;
+        if (collidesWithMap()) {
+        	if (velocityX > 0) {
+        		x -= 1;
+        		while(collidesWithMap()) {
+        			x -= 1;
+        		}
+        	}else {
+        		x += 1;
+        		while(collidesWithMap()) {
+        			x += 1;
+        		}
+        	}
+            velocityX = 0;
+        }
 
+        // Check and resolve collisions in the y direction
+        y += velocityY;
+        if (collidesWithMap()) {
+        	if(velocityY > 0) {
+        		canJump = true;
+        		y -= 1;
+        		while(collidesWithMap()) {
+        			y -= 1;
+        		}
+        	}else {
+        		y += 1;
+        		while(collidesWithMap()) {
+        			y += 1;
+        		}
+        	}
+        	//y -= velocityY;
+            velocityY = 0;
+        }
+        
+        velocityY += gravity;
         velocityX = slowdownCalc(velocityX);
         velocityY = slowdownCalc(velocityY);
     }
+
 
     public boolean collidesWithMap() {
         if (map == null) {
@@ -94,7 +127,6 @@ public class Player {
         return false; // No collision detected
     }
 
-   
     private void velocityCalc(int velocity) {
         if (velocity > maxVelocity) {
             velocity = maxVelocity;
