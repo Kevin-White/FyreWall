@@ -36,6 +36,10 @@ public class Map {
                     g.setColor(Color.BLACK);
                     g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
                 }
+                if (mapData[row][col] == 2) {
+                    g.setColor(Color.BLUE);
+                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                }
             }
         }
     }

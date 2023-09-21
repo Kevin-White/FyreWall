@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 
 public class Player {
     private int x, y;
+    private int size = 50;
     private int blockSpeed = 2;
     private int jumpSpeed = 50;
     private int gravity = 3;
@@ -55,6 +56,7 @@ public class Player {
         velocityCalc(velocityX);
         velocityCalc(velocityY);
 
+        // Check and resolve collisions in the x direction
         x += velocityX;
         if (collidesWithMap()) {
         	if (velocityX > 0) {
@@ -102,9 +104,9 @@ public class Player {
         }
 
         int playerLeft = getX();
-        int playerRight = getX() + 50;
+        int playerRight = getX() + size - 1;
         int playerTop = getY();
-        int playerBottom = getY() + 50;
+        int playerBottom = getY() + size - 1;
 
         int tileSize = map.getTileSize();
 
@@ -148,6 +150,6 @@ public class Player {
 
     public void draw(Graphics g) {
         g.setColor(Color.red);
-        g.fillRect(x, y, 50, 50);
+        g.fillRect(x, y, size, size);
     }
 }
