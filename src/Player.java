@@ -6,15 +6,16 @@ public class Player {
     private int x, y;
     private int size = 50;
     private int blockSpeed = 2;
-    private int jumpSpeed = 50;
+    private int jumpSpeed = 40;
     private int gravity = 3;
     private boolean canJump = true;
     private boolean[] keys;
-    private int maxVelocity = 50;
+    private int maxVelocity = 40;
     private int velocityX = 0;
     private int velocityY = 0;
     private int velocitySlowdown = 1;
     private Map map;
+    private Block block = new Block(true);
 
     public Player(int x, int y) {
         this.x = x;
@@ -53,12 +54,15 @@ public class Player {
         if (keys[KeyEvent.VK_A]) velocityX -= blockSpeed;
         if (keys[KeyEvent.VK_D]) velocityX += blockSpeed;
 
-        velocityCalc(velocityX);
-        velocityCalc(velocityY);
+        velocityX = velocityCalc(velocityX);
+        velocityY = velocityCalc(velocityY);
 
         // Check and resolve collisions in the x direction
         x += velocityX;
         if (collidesWithMap()) {
+        	if(this.block.isDefaultBlock() == false){
+        		playerChanges();
+        	}
         	if (velocityX > 0) {
         		x -= 1;
         		while(collidesWithMap()) {
@@ -76,6 +80,9 @@ public class Player {
         // Check and resolve collisions in the y direction
         y += velocityY;
         if (collidesWithMap()) {
+        	if(this.block.isDefaultBlock() == false){
+        		playerChanges();
+        	}
         	if(velocityY > 0) {
         		canJump = true;
         		y -= 1;
@@ -98,7 +105,7 @@ public class Player {
     }
 
 
-    public boolean collidesWithMap() {
+    private boolean collidesWithMap() {
         if (map == null) {
             return false; // No map to collide with
         }
@@ -121,7 +128,9 @@ public class Player {
             for (int col = leftTile; col <= rightTile; col++) {
                 if (map.isSolidTile(row, col)) {
                     // Collision with a solid tile
+                	this.block = map.blockType(row, col);
                     return true;
+                    
                 }
             }
         }
@@ -129,13 +138,14 @@ public class Player {
         return false; // No collision detected
     }
 
-    private void velocityCalc(int velocity) {
+    private int velocityCalc(int velocity) {
         if (velocity > maxVelocity) {
             velocity = maxVelocity;
         }
         if (velocity < -maxVelocity) {
             velocity = -maxVelocity;
         }
+        return velocity;
     }
 
     private int slowdownCalc(int velocity) {
@@ -146,6 +156,15 @@ public class Player {
             velocity += velocitySlowdown;
         }
         return velocity;
+    }
+    
+    private void playerChanges() {
+    	this.size = block.getNewSize();
+    	this.blockSpeed = block.getNewBlockSpeed();
+    	this.jumpSpeed = block.getNewJumpSpeed();
+    	this.gravity = block.getNewGravity();
+    	this.maxVelocity = block.getNewMaxVelocity();
+    	this.velocitySlowdown = block.getNewVelocitySlowdown();
     }
 
     public void draw(Graphics g) {
