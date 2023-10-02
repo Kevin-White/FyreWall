@@ -14,7 +14,11 @@ public class Player {
     private int velocityX = 0;
     private int velocityY = 0;
     private int velocitySlowdown = 1;
-    private Map map;
+    private long lastMapChange = 0;
+    private Map currentMap;
+    private Map mapOne;
+    private Map mapTwo;
+
     private Block block = new Block(true);
 
     public Player(int x, int y) {
@@ -23,16 +27,38 @@ public class Player {
         keys = new boolean[256];
     }
     
-    public void setMap(Map map) {
-    	this.map = map;
+    public void setMap(Map mapOne, Map mapTwo) {
+    	this.mapOne = mapOne;
+    	this.currentMap = mapOne;
+    	this.mapTwo = mapTwo;
     }
     
     public int getX(){
     	return x;
     }
-    
     public int getY(){
     	return y;
+    }
+    public int getSize() {
+    	return size;
+    }
+    public int getBlockSpeed() {
+    	return blockSpeed;
+    }
+    public int getJumpSpeed() {
+    	return jumpSpeed;
+    }
+    public int getGravity() {
+    	return gravity;
+    }
+    public int getMaxVelocity() {
+    	return maxVelocity;
+    }
+    public int getVelocitySlowdown() {
+    	return velocitySlowdown;
+    }
+    public Map getCurrentMap() {
+    	return currentMap;
     }
 
     public void keyPressed(int keyCode) {
@@ -50,9 +76,20 @@ public class Player {
             velocityY -= jumpSpeed;
             canJump = false;
         }
-        if (keys[KeyEvent.VK_S]) velocityY += blockSpeed;
+        if (keys[KeyEvent.VK_S] && gravity >= 0) velocityY += blockSpeed;
         if (keys[KeyEvent.VK_A]) velocityX -= blockSpeed;
         if (keys[KeyEvent.VK_D]) velocityX += blockSpeed;
+        if (keys[KeyEvent.VK_SPACE]) {
+            // 1000 is the delay in milliseconds. Adjust as needed.
+            if (System.currentTimeMillis() - lastMapChange > 2000) { 
+            	lastMapChange = System.currentTimeMillis();
+                if (currentMap == mapOne) {
+                    currentMap = mapTwo;
+                } else {
+                    currentMap = mapOne;
+                }
+            }
+        }
 
         velocityX = velocityCalc(velocityX);
         velocityY = velocityCalc(velocityY);
@@ -84,12 +121,23 @@ public class Player {
         		playerChanges();
         	}
         	if(velocityY > 0) {
-        		canJump = true;
+        		if(gravity > 0) {
+        			canJump = true;
+        		}
         		y -= 1;
         		while(collidesWithMap()) {
         			y -= 1;
         		}
+//        	}else if(velocityY < 0 && gravity < 0){
+//        		canJump = true;
+//        		y -= 1;
+//        		while(collidesWithMap()) {
+//        			y -= 1;
+//        		}
         	}else {
+        		if(gravity  < 0) {
+        			canJump = true;
+        		}
         		y += 1;
         		while(collidesWithMap()) {
         			y += 1;
@@ -106,7 +154,7 @@ public class Player {
 
 
     private boolean collidesWithMap() {
-        if (map == null) {
+        if (currentMap == null) {
             return false; // No map to collide with
         }
 
@@ -115,7 +163,7 @@ public class Player {
         int playerTop = getY();
         int playerBottom = getY() + size - 1;
 
-        int tileSize = map.getTileSize();
+        int tileSize = currentMap.getTileSize();
 
         // Calculate the tiles that the player's bounding box overlaps
         int leftTile = playerLeft / tileSize;
@@ -126,9 +174,9 @@ public class Player {
         // Check for collisions with nearby map tiles
         for (int row = topTile; row <= bottomTile; row++) {
             for (int col = leftTile; col <= rightTile; col++) {
-                if (map.isSolidTile(row, col)) {
+                if (currentMap.isSolidTile(row, col)) {
                     // Collision with a solid tile
-                	this.block = map.blockType(row, col);
+                	this.block = currentMap.blockType(row, col, this);
                     return true;
                     
                 }
