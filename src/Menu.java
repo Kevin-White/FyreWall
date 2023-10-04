@@ -23,10 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 public class Menu extends JFrame{
-	private boolean isGrid;
-	private int newMenuItems;
+	private boolean isGrid; // Sets if the layout of the menu is a Grid Or Not.
+	private int newMenuItems; // Sets how many buttons will be made
+	private String[] Labels; // An Array of Labels used for the setMenuItems Method
 	private JFrame menu; 
-	private JButton buttons;
+	private JButton buttons; // The buttons being added to the menu itself
 	
 	
 	public Menu()
@@ -38,7 +39,7 @@ public class Menu extends JFrame{
 		menu.pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) screenSize.getWidth();
-        height = (int) screenSize.getHeight();
+        height = (int) screenSize.getHeight();        
 		menu.setSize(width, height);
 		menu.setLocationRelativeTo(null); 
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +68,7 @@ public class Menu extends JFrame{
         }
         
         for (int i = 0; i < newMenuItems; i++) {
-            buttons[i] = new JButton("Button " + (i + 1));
+            buttons[i] = new JButton(Labels[i]);
             buttons[i].addActionListener(new ButtonClickListener());
             menu.add(buttons[i]);
             menu.revalidate(); // Refresh the GUI
@@ -79,19 +80,32 @@ public class Menu extends JFrame{
         this.isGrid = setIsGrid;
     }
     
-    public boolean getIsGrid()
-    {
+    public boolean getIsGrid(){
     	return isGrid;
     }
+//----------------------------
+	public void setButtonLabels(String[] Labels){
+		this.Labels = Labels;
+	}
+	
+	public void readLabelsArray() //Test function remove on FINAL submission
+	{
+		System.out.println("Label Function");
+		for(int i = 0; i < Labels.length; i++)
+		{
+			System.out.println(Labels[i]);
+		}
+	}
 //----------------------------
 private class ButtonClickListener implements ActionListener{
 	 public void actionPerformed(ActionEvent e) {
          JButton clickedButton = (JButton) e.getSource();
          String buttonText = clickedButton.getText();
-
          JOptionPane.showMessageDialog(menu, "Button Clicked: " + buttonText);
      }
 }
+
 //----------------------------
+
 
 }
