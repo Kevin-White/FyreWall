@@ -89,7 +89,7 @@ private class ButtonClickListener implements ActionListener{
          JButton clickedButton = (JButton) e.getSource();
          String buttonText = clickedButton.getText();
 
-         //JOptionPane.showMessageDialog(menu, "Button Clicked: " + buttonText);
+         JOptionPane.showMessageDialog(menu, "Button Clicked: " + buttonText);
      }
 }
 //----------------------------

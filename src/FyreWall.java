@@ -10,8 +10,8 @@ public class FyreWall extends JFrame {
 	
 	public FyreWall() {
 		//Menu menu = new Menu();
-		//menu.setIsGrid(true);
-		//menu.setMenuItems(3); // Set how many buttons are on the menu
+		//menu.setIsGrid(false);
+		//menu.setMenuItems(5); // Set how many buttons are on the menu
 	
         setTitle("FyreWall");
         setSize(800, 600);
