@@ -7,6 +7,7 @@ public class Block {
     private int newGravity;
     private int newMaxVelocity;
     private int newVelocitySlowdown;
+    private boolean win = false;
     
     public Block(int newSize, int newBlockSpeed, int newJumpSpeed, int newGravity, int newMaxVelocity, int newVelocitySlowdown){
     	this.newSize = newSize;
@@ -102,6 +103,14 @@ public class Block {
 
 	public void setDefaultBlock(boolean isDefaultBlock) {
 		this.isDefaultBlock = isDefaultBlock;
+	}
+
+	public boolean isWin() {
+		return win;
+	}
+
+	public void setWin(boolean win) {
+		this.win = win;
 	}
 
 }

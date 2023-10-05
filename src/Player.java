@@ -18,6 +18,7 @@ public class Player {
     private Map currentMap;
     private Map mapOne;
     private Map mapTwo;
+    private boolean won = false;
 
     private Block block = new Block(true);
 
@@ -31,6 +32,11 @@ public class Player {
     	this.mapOne = mapOne;
     	this.currentMap = mapOne;
     	this.mapTwo = mapTwo;
+    }
+    
+    public void setMap(Map mapOne) {
+    	this.mapOne = mapOne;
+    	this.currentMap = mapOne;
     }
     
     public int getX(){
@@ -57,6 +63,9 @@ public class Player {
     public int getVelocitySlowdown() {
     	return velocitySlowdown;
     }
+    public boolean getWon() {
+    	return won;
+    }
     public Map getCurrentMap() {
     	return currentMap;
     }
@@ -79,9 +88,9 @@ public class Player {
         if (keys[KeyEvent.VK_S] && gravity >= 0) velocityY += blockSpeed;
         if (keys[KeyEvent.VK_A]) velocityX -= blockSpeed;
         if (keys[KeyEvent.VK_D]) velocityX += blockSpeed;
-        if (keys[KeyEvent.VK_SPACE]) {
+        if (keys[KeyEvent.VK_SPACE] && mapTwo != null) {
             // 1000 is the delay in milliseconds. Adjust as needed.
-            if (System.currentTimeMillis() - lastMapChange > 2000) { 
+            if (System.currentTimeMillis() - lastMapChange > 500) { 
             	lastMapChange = System.currentTimeMillis();
                 if (currentMap == mapOne) {
                     currentMap = mapTwo;
@@ -207,6 +216,7 @@ public class Player {
     }
     
     private void playerChanges() {
+    	this.won = block.isWin();
     	this.size = block.getNewSize();
     	this.blockSpeed = block.getNewBlockSpeed();
     	this.jumpSpeed = block.getNewJumpSpeed();

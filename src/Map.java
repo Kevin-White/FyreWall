@@ -10,7 +10,8 @@ public class Map {
     private Block fire;
     private Block antiGravity;
     private Block reset;
-
+    private Block win;
+    
     public Map(int[][] mapData, int tileSize) {
         this.mapData = mapData;
         this.tileSize = tileSize;    
@@ -35,7 +36,7 @@ public class Map {
     	return false;
     }
     
-    //All the different block types a user can uuse
+    //All the different block types a user can use
     public Block blockType(int row, int col, Player player){
         //All the block types you can pick for a map;
     	//player effects(playerSize, player speed, jump height, gravity, max velocity, slowdown velocity )
@@ -57,6 +58,11 @@ public class Map {
     		case 5:
     			reset = new Block(50, 2, 40, 3, 40, 1);
     			return reset;
+    		case 6:
+    			win = new Block();
+    			win.setDefaultBlock(false);
+    			win.setWin(true);
+    			return win;
     		default:
     			return null;
     	}
@@ -85,6 +91,10 @@ public class Map {
 	                    break;
                 	case 5:
                 		g.setColor(Color.DARK_GRAY);
+	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+	                    break;
+                	case 6:
+                		g.setColor(Color.GREEN);
 	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
 
