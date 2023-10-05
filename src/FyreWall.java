@@ -7,8 +7,20 @@ public class FyreWall extends JFrame {
 	 */
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	public FyreWall() {
+		Menu menu = new Menu();
+		String[] Labels = {"Tutorial" , "Exit"};
+		// Set's a array with labels for the menu button labels
+		menu.setButtonLabels(Labels);
+		// Sends the Labels Array to the label setter for the buttons
+		menu.setIsGrid(false);
+		// Sets if the menu being made will be a grid or not.
+		menu.setMenuItems(2); 
+		// Sets the amount of buttons that will be made on the new menu.
+		menu.readLabelsArray(); 
+		// Displays the Label array in console
+		
         setTitle("FyreWall");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
