@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 public class Menu extends JFrame{
 	private boolean isGrid; // Sets if the layout of the menu is a Grid Or Not.
 	private int newMenuItems; // Sets how many buttons will be made

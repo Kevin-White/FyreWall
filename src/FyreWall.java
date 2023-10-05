@@ -7,9 +7,9 @@ public class FyreWall extends JFrame {
 	 */
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	public FyreWall() {
-		Menu menu = new Menu();
+			Menu menu = new Menu();
 		String[] Labels = {"Tutorial" , "Exit"};
 		// Set's a array with labels for the menu button labels
 		menu.setButtonLabels(Labels);
