@@ -26,6 +26,7 @@ public class Level extends JPanel implements ActionListener {
     private Wall wall;    // Wall object representing a moving wall in the level
     private TextPrompt prompt[];    // Array of TextPrompt objects representing prompts in the level
     private int promptSize = 0;    // Size of the prompt array
+    private FyreWall fyreWall;	//Holds the menu so you can exit the game
 
 
     /**
@@ -36,7 +37,10 @@ public class Level extends JPanel implements ActionListener {
      * @param mapOne The first map to be used in the level.
      * @param mapTwo The second map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne, Map mapTwo) {
+    public Level(int x, int y, Map mapOne, Map mapTwo, FyreWall fyreWall) {
+    	
+    	//Assign a copy to the menu tothe level
+    	this.fyreWall = fyreWall;
     	
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
@@ -234,11 +238,14 @@ public class Level extends JPanel implements ActionListener {
 
             // If the player chooses to exit, exit the game
             if (n == JOptionPane.YES_OPTION) {
-                System.exit(0);
+                restartLevel();
+                fyreWall.dispose();
             } 
             // If the player chooses to restart, restart the level
             else if (n == JOptionPane.NO_OPTION) {
                 restartLevel();
+             // Restart the game timer
+                animationTimer.start();
             }
         }
     }
@@ -254,9 +261,6 @@ public class Level extends JPanel implements ActionListener {
         
         // Recreate the wall at the original position
         wall = new Wall(-5500, -2500);
-
-        // Restart the game timer
-        animationTimer.start();
         
         // Repaint the component
         repaint();
