@@ -1,22 +1,19 @@
 import javax.swing.JFrame;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 
 
 
 public class Menu extends JFrame{
 	
+    private static final long serialVersionUID = 1L;
 	private boolean isGrid; // Sets if the layout of the menu is a Grid Or Not.
 	private int newMenuItems; // Sets how many buttons will be made
 	private String[] Labels; // An Array of Labels used for the setMenuItems Method
 	private JFrame menu; 
-	private JButton buttons; // The buttons being added to the menu itself
 	private boolean isVisible;
     private String lastButtonPressed;
     private ButtonPressListener buttonPressListener;
@@ -26,13 +23,8 @@ public class Menu extends JFrame{
     public Menu(ButtonPressListener buttonPressListener) {
         this.buttonPressListener = buttonPressListener;
 		menu = new JFrame("menu");
-		int width;
-	    int height;
 		menu.pack();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int) screenSize.getWidth();
-        height = (int) screenSize.getHeight();        
-		menu.setSize(width, height);
+        menu.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		menu.setLocationRelativeTo(null); 
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menu.setVisible(true);

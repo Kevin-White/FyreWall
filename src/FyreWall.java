@@ -1,44 +1,27 @@
 import javax.swing.JFrame;
 
-
 public class FyreWall extends JFrame implements Menu.ButtonPressListener {
-    /**
-	 * Driver function for the game
-	 */
-Menu menu = new Menu(this);
+    Menu menu = new Menu(this);
+    Level gamePanel;
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
-	public FyreWall() {
-		
-		String[] Labels = {"Tutorial" , "Exit"};
-		// Set's a array with labels for the menu button labels
-		menu.setButtonLabels(Labels);
-		// Sends the Labels Array to the label setter for the buttons
-		menu.setIsGrid(false);
-		// Sets if the menu being made will be a grid or not.
-		menu.setMenuItems(2); 
-		// Sets the amount of buttons that will be made on the new menu.
-	    }
 
-    public static void main(String[] args) {
-        new FyreWall();
+    public FyreWall() {
+        // Initialize menu
+        String[] Labels = {"Tutorial" , "Exit"};
+        menu.setButtonLabels(Labels);
+        menu.setIsGrid(false);
+        menu.setMenuItems(2); 
+
+        // Initialize game panel
+        initGamePanel();
     }
-    
-    public void onButtonPressed(String buttonLabel) {
-        // Handle the button press here in the driver class
-        System.out.println("Button pressed: " + buttonLabel);
-        if(buttonLabel == "Tutorial")
-        {
-			setTitle("FyreWall");
-	        setSize(800, 600);
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        setLocationRelativeTo(null); // Center the window
-	        setResizable(true);
-	        Map mapOne;
-	        Map mapTwo;
-	        
-	        //This map will be the tutorial
-	        int[][] sampleMapDataOne = {
+
+    private void initGamePanel() {
+    	Map mapOne;
+        Map mapTwo;
+    	
+    	 int[][] sampleMapDataOne = {
 	        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
 	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
@@ -75,7 +58,7 @@ Menu menu = new Menu(this);
 	        mapOne = new Map(sampleMapDataOne, 50); //// Tile size is 100 pixels (adjust as needed)
 	        mapTwo = new Map(sampleMapDataTwo, 50);
 	        // Add the game panel
-	        Level gamePanel = new Level(100, 100, mapOne, mapTwo);
+	        Level gamePanel = new Level(100, 100, mapOne, mapTwo, this);
 	        gamePanel.addPrompt("Quick Don't let the FyreWall catch you!",200, 100);
 	        gamePanel.addPrompt("Press \"D\" to move right.",200, 150);
 	        gamePanel.addPrompt("Press \"A\" to move left.", 900, 150);
@@ -85,20 +68,25 @@ Menu menu = new Menu(this);
 	        gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
 	        gamePanel.addPrompt("You will need a types of blocks to help you on your way!", 5000, 600); 
 	        add(gamePanel);
-	        setVisible(true);
+	        //setVisible(true);
+ 
+        //add(gamePanel);
+    }
+
+    public void onButtonPressed(String buttonLabel) {
+        if(buttonLabel.equals("Tutorial")) {
+        	menu.setVisible(false);
+            setUndecorated(true);
+        	setExtendedState(JFrame.MAXIMIZED_BOTH);
+            setVisible(true);
         }
-        else if(buttonLabel == "Exit")
-        {
-        	  System.exit(0);
+        else if(buttonLabel.equals("Exit")) {
+            System.exit(0);
         }
-        else if(buttonLabel == "Shop")
-        {
-        	// Do stuff to make a shop
-        }
-        else if(buttonLabel == "Level Select")
-        {
-        	// Do stuff to make a level selector
-        }
+    }
+    
+    public static void main(String[] args) {
+        new FyreWall();
     }
 }
 
