@@ -1,39 +1,30 @@
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.CardLayout;
 import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+
+
+
 
 public class Menu extends JFrame{
+	
 	private boolean isGrid; // Sets if the layout of the menu is a Grid Or Not.
 	private int newMenuItems; // Sets how many buttons will be made
 	private String[] Labels; // An Array of Labels used for the setMenuItems Method
 	private JFrame menu; 
 	private JButton buttons; // The buttons being added to the menu itself
+	private boolean isVisible;
+    private String lastButtonPressed;
+    private ButtonPressListener buttonPressListener;
+
 	
 	
-	public Menu()
-	{
-	    //menu.setDefaultLookAndFeelDecorated(true);
+    public Menu(ButtonPressListener buttonPressListener) {
+        this.buttonPressListener = buttonPressListener;
 		menu = new JFrame("menu");
 		int width;
 	    int height;
@@ -46,12 +37,11 @@ public class Menu extends JFrame{
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menu.setVisible(true);
         menu.setTitle("FyreWall");   
-        menu.getContentPane().removeAll();      
-	    menu.revalidate(); // Refresh the GUI
-	    menu.repaint();
+	  }
 	    //
-     }
-
+     
+//----------------------------		
+	
 //----------------------------	
     public int getMenuItems(){
         return newMenuItems;
@@ -65,7 +55,7 @@ public class Menu extends JFrame{
             //menu.setLayout(new BoxLayout(menu.getContentPane(), BoxLayout.Y_AXIS));
         }
         else{
-        	menu.setLayout(new FlowLayout(FlowLayout.CENTER));
+        	menu.setLayout(new FlowLayout(FlowLayout.CENTER)); 
         }
         
         for (int i = 0; i < newMenuItems; i++) {
@@ -89,24 +79,50 @@ public class Menu extends JFrame{
 		this.Labels = Labels;
 	}
 	
-	public void readLabelsArray() //Test function remove on FINAL submission
+//	public void readLabelsArray() //Test function remove on FINAL submission
+//	{
+//		System.out.println("Label Function");
+//		for(int i = 0; i < Labels.length; i++)
+//		{
+//			System.out.println(Labels[i]);
+//		}
+//	}
+//----------------------------
+	public void setIsVisible(boolean isVisible)
 	{
-		System.out.println("Label Function");
-		for(int i = 0; i < Labels.length; i++)
-		{
-			System.out.println(Labels[i]);
-		}
+		this.isVisible = isVisible;
+	}
+	
+	public boolean getIsVisible()
+	{
+		return isVisible;
 	}
 //----------------------------
-private class ButtonClickListener implements ActionListener{
-	 public void actionPerformed(ActionEvent e) {
-         JButton clickedButton = (JButton) e.getSource();
-         String buttonText = clickedButton.getText();
-         JOptionPane.showMessageDialog(menu, "Button Clicked: " + buttonText);
-     }
+
+//----------------------------	
+	public void  setButtonPressed(String lastButtonPressed){
+		this.lastButtonPressed = lastButtonPressed;
+			
+	}
+	public String getButtonPressed(){
+			return lastButtonPressed;
+	}
+	
+	private class ButtonClickListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+	        JButton clickedButton = (JButton) e.getSource();
+	        String buttonText = clickedButton.getText();
+	        setButtonPressed(buttonText);
+
+	        // Notify the driver or other listeners
+	        if (buttonPressListener != null) {
+	            buttonPressListener.onButtonPressed(buttonText);
+	        }
+	    }
+	}
+//----------------------------	
+	public interface ButtonPressListener {
+	    void onButtonPressed(String buttonLabel);
+	}
 }
 
-//----------------------------
-
-
-}

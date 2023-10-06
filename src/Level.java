@@ -17,14 +17,14 @@ public class Level extends JPanel implements ActionListener {
 	
     private static final long serialVersionUID = 1L;
     private Player player;
-    private Map currentMap; // a Map object to store and draw the current game map
-    private Timer animationTimer;
+    private Map currentMap; // a Map object to store and draw the current game map 
+    private Timer animationTimer; 
     private float alpha = 0f;
     private Wall wall;
-    private TextPrompt prompt[];
+    private TextPrompt prompt[]; 
     private int promptSize = 0;
 
-
+    
     public Level(int x, int y, Map mapOne, Map mapTwo) {
     	levelSetup(x, y);
     	originalPlayerX = x;
