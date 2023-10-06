@@ -12,9 +12,6 @@ public class FyreWall extends JFrame implements Menu.ButtonPressListener {
         menu.setButtonLabels(Labels);
         menu.setIsGrid(false);
         menu.setMenuItems(2); 
-
-        // Initialize game panel
-        initGamePanel();
     }
 
     private void initGamePanel() {
@@ -68,13 +65,12 @@ public class FyreWall extends JFrame implements Menu.ButtonPressListener {
 	        gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
 	        gamePanel.addPrompt("You will need a types of blocks to help you on your way!", 5000, 600); 
 	        add(gamePanel);
-	        //setVisible(true);
- 
-        //add(gamePanel);
     }
 
     public void onButtonPressed(String buttonLabel) {
         if(buttonLabel.equals("Tutorial")) {
+            // Initialize game panel
+        	initGamePanel();
         	menu.setVisible(false);
             setUndecorated(true);
         	setExtendedState(JFrame.MAXIMIZED_BOTH);

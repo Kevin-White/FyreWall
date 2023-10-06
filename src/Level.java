@@ -27,6 +27,8 @@ public class Level extends JPanel implements ActionListener {
     private TextPrompt prompt[];    // Array of TextPrompt objects representing prompts in the level
     private int promptSize = 0;    // Size of the prompt array
     private FyreWall fyreWall;	//Holds the menu so you can exit the game
+    private Timer timer;
+
 
 
     /**
@@ -39,7 +41,7 @@ public class Level extends JPanel implements ActionListener {
      */
     public Level(int x, int y, Map mapOne, Map mapTwo, FyreWall fyreWall) {
     	
-    	//Assign a copy to the menu tothe level
+    	//Assign a copy to the menu to the level
     	this.fyreWall = fyreWall;
     	
     	// Set up the level with initial player coordinates
@@ -153,7 +155,7 @@ public class Level extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         
         // Create a timer to call actionPerformed method at 60 FPS
-        Timer timer = new Timer(1000 / 60, this); // 60 FPS
+        timer = new Timer(1000 / 60, this); // 60 FPS
         timer.start();
         
         // Create an animation timer to gradually decrease alpha value and repaint the component
@@ -240,6 +242,7 @@ public class Level extends JPanel implements ActionListener {
             if (n == JOptionPane.YES_OPTION) {
                 restartLevel();
                 fyreWall.dispose();
+                timer.stop();
             } 
             // If the player chooses to restart, restart the level
             else if (n == JOptionPane.NO_OPTION) {
