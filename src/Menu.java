@@ -1,12 +1,10 @@
 import javax.swing.JFrame;
+
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-
-
-
-
 public class Menu extends JFrame{
 	
     private static final long serialVersionUID = 1L;
@@ -17,10 +15,10 @@ public class Menu extends JFrame{
 	private boolean isVisible;
     private String lastButtonPressed;
     private ButtonPressListener buttonPressListener;
-
-	
+    
 	
     public Menu(ButtonPressListener buttonPressListener) {
+ 
         this.buttonPressListener = buttonPressListener;
 		menu = new JFrame("menu");
 		menu.pack();
@@ -35,6 +33,9 @@ public class Menu extends JFrame{
 //----------------------------		
 	
 //----------------------------	
+    
+
+    
     public int getMenuItems(){
         return newMenuItems;
     }
@@ -83,6 +84,7 @@ public class Menu extends JFrame{
 	public void setIsVisible(boolean isVisible)
 	{
 		this.isVisible = isVisible;
+
 	}
 	
 	public boolean getIsVisible()
@@ -115,6 +117,9 @@ public class Menu extends JFrame{
 //----------------------------	
 	public interface ButtonPressListener {
 	    void onButtonPressed(String buttonLabel);
-	}
+	}	
 }
+
+
+
 
