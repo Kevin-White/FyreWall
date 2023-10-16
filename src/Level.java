@@ -26,7 +26,7 @@ public class Level extends JPanel implements ActionListener {
     private Wall wall;    // Wall object representing a moving wall in the level
     private TextPrompt prompt[];    // Array of TextPrompt objects representing prompts in the level
     private int promptSize = 0;    // Size of the prompt array
-    private FyreWall fyreWall;	//Holds the menu so you can exit the game
+    private LevelMenu fyreWall;	//Holds the menu so you can exit the game
 
 
     /**
@@ -37,7 +37,7 @@ public class Level extends JPanel implements ActionListener {
      * @param mapOne The first map to be used in the level.
      * @param mapTwo The second map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne, Map mapTwo, FyreWall fyreWall) {
+    public Level(int x, int y, Map mapOne, Map mapTwo, LevelMenu fyreWall) {
     	
     	//Assign a copy to the menu tothe level
     	this.fyreWall = fyreWall;
