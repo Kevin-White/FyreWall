@@ -116,5 +116,9 @@ public class Menu extends JFrame{
 	public interface ButtonPressListener {
 	    void onButtonPressed(String buttonLabel);
 	}
+	
+	public void onButtonPressed(String buttonLabel) {
+        // Default implementation (can be overridden by subclasses)
+    }
 }
 

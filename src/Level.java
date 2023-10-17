@@ -26,7 +26,7 @@ public class Level extends JPanel implements ActionListener {
     private Wall wall;    // Wall object representing a moving wall in the level
     private TextPrompt prompt[];    // Array of TextPrompt objects representing prompts in the level
     private int promptSize = 0;    // Size of the prompt array
-    private FyreWall fyreWall;	//Holds the menu so you can exit the game
+    private LevelSelect fyreWall;	//Holds the menu so you can exit the game
     private Timer timer;
 
 
@@ -39,7 +39,7 @@ public class Level extends JPanel implements ActionListener {
      * @param mapOne The first map to be used in the level.
      * @param mapTwo The second map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne, Map mapTwo, FyreWall fyreWall) {
+    public Level(int x, int y, Map mapOne, Map mapTwo, LevelSelect fyreWall) {
     	
     	//Assign a copy to the menu to the level
     	this.fyreWall = fyreWall;
@@ -69,7 +69,9 @@ public class Level extends JPanel implements ActionListener {
      * @param y The initial y-coordinate of the player.
      * @param mapOne The map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne) {
+    public Level(int x, int y, Map mapOne, LevelSelect fyreWall) {
+    	this.fyreWall = fyreWall;
+    	
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
     	
@@ -216,10 +218,12 @@ public class Level extends JPanel implements ActionListener {
             animationTimer.stop();
 
             // Show a message dialog to congratulate the player
-            JOptionPane.showMessageDialog(null, "Congratulations, you finished the Tutorial!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Congratulations, you finished the Level!", "You Got " + "0" + " Points", JOptionPane.INFORMATION_MESSAGE);
 
             // Exit the game
-            System.exit(0);
+            fyreWall.dispose();
+            fyreWall = new LevelSelect();
+            timer.stop();
         }
         
         // Check if the wall has passed the player
@@ -242,6 +246,7 @@ public class Level extends JPanel implements ActionListener {
             if (n == JOptionPane.YES_OPTION) {
                 restartLevel();
                 fyreWall.dispose();
+                fyreWall = new LevelSelect();
                 timer.stop();
             } 
             // If the player chooses to restart, restart the level
