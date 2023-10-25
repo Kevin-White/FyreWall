@@ -6,19 +6,19 @@ import java.awt.event.ActionListener;
 
 class LevelSelect extends JFrame {
     private static final long serialVersionUID = 1L;
-    JPanel levelPanel = new JPanel();
-    JButton tutorial = new JButton("Tutorial");
-    JButton back = new JButton("Back");
-    JButton level1Button = new JButton("Level 1");
-    JButton level2Button = new JButton("Level 2");
-    FyreWall fyreWall;
+    private FyreWall fyreWall;
     // Add more buttons as needed...
 
     public LevelSelect() {
+        JPanel levelPanel = new JPanel();
+        JButton tutorialButton = new JButton("Tutorial");
+        JButton backButton = new JButton("Back");
+        JButton level1Button = new JButton("Level 1");
+        JButton level2Button = new JButton("Level 2");
         // Initialize level selection menu
-    	tutorial.addActionListener(new ActionListener() {
+    	tutorialButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	initTutorial();
+            	initTutorialButton();
                 levelPanel.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
@@ -27,7 +27,7 @@ class LevelSelect extends JFrame {
             }
         });
     	
-    	back.addActionListener(new ActionListener() {
+    	backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	fyreWall = new FyreWall();
             	dispose();
@@ -52,8 +52,8 @@ class LevelSelect extends JFrame {
         });
 
         // Add more action listeners as needed...
-        levelPanel.add(tutorial);
-        levelPanel.add(back);
+        levelPanel.add(tutorialButton);
+        levelPanel.add(backButton);
         levelPanel.add(level1Button);
         levelPanel.add(level2Button);
         // Add more buttons to the panel as needed...
@@ -66,7 +66,7 @@ class LevelSelect extends JFrame {
         setVisible(true); // Make the frame visible
     }
     
-    private void initTutorial() {
+    private void initTutorialButton() {
     	Map mapOne;
         Map mapTwo;
     	
@@ -107,7 +107,7 @@ class LevelSelect extends JFrame {
 	        mapOne = new Map(sampleMapDataOne, 50); //// Tile size is 100 pixels (adjust as needed)
 	        mapTwo = new Map(sampleMapDataTwo, 50);
 	        // Add the game panel
-	        Level gamePanel = new Level(100, 100, mapOne, mapTwo, this);
+	        Level gamePanel = new Level("Tutorial",100, 100, mapOne, mapTwo, this);
 	        gamePanel.addPrompt("Quick Don't let the FyreWall catch you!",200, 100);
 	        gamePanel.addPrompt("Press \"D\" to move right.",200, 150);
 	        gamePanel.addPrompt("Press \"A\" to move left.", 900, 150);
@@ -179,7 +179,7 @@ class LevelSelect extends JFrame {
     	
     	mapOne = new Map(sampleMapDataOne, 50); //// Tile size is 100 pixels (adjust as needed)
     	mapTwo = new Map(sampleMapDataTwo, 50);
-    	Level gamePanel = new Level(100, 100, mapOne, mapTwo, this);
+    	Level gamePanel = new Level("Level1", 100, 100, mapOne, mapTwo, this);
     	add(gamePanel); 
     }
 

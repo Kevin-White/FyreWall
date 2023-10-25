@@ -8,16 +8,7 @@ import java.awt.Graphics;
  */
 public class Map {
     private int[][] mapData; // 2D array to store the map data
-    private int tileSize;   // Size of each tile in pixels
-    
-    // Different types of blocks that can be used in the map
-    private Block basic;
-    private Block ice;
-    private Block fire;
-    private Block antiGravity;
-    private Block reset;
-    private Block win;
-    
+    private int tileSize;   // Size of each tile in pixels    
     /**
      * Constructor for the Map class.
      * It initializes a Map object with specific map data and tile size.
@@ -70,22 +61,22 @@ public class Map {
     		case 0:
     			return null;
     		case 1:
-    			basic = new Block();
+    			Block basic = new Block();
     			return basic;
     		case 2:
-    			ice = new Block(player.getSize(), 1, player.getJumpSpeed(), player.getGravity(), 20, player.getVelocitySlowdown());
+    			Block ice = new Block(player.getSize(), 1, player.getJumpSpeed(), player.getGravity(), 20, player.getVelocitySlowdown());
     			return ice;
     		case 3:
-    			fire = new Block(player.getSize(), 3, player.getJumpSpeed(), player.getGravity(), 60, player.getVelocitySlowdown());
+    			Block fire = new Block(player.getSize(), 3, player.getJumpSpeed(), player.getGravity(), 60, player.getVelocitySlowdown());
     			return fire;
     		case 4:
-    			antiGravity = new Block(player.getSize(), player.getBlockSpeed(), -40, -3, player.getMaxVelocity(), player.getVelocitySlowdown());
+    			Block antiGravity = new Block(player.getSize(), player.getBlockSpeed(), -40, -3, player.getMaxVelocity(), player.getVelocitySlowdown());
     			return antiGravity;
     		case 5:
-    			reset = new Block(50, 2, 40, 3, 40, 1);
+    			Block reset = new Block(50, 2, 40, 3, 40, 1);
     			return reset;
     		case 6:
-    			win = new Block();
+    			Block win = new Block();
     			win.setDefaultBlock(false);
     			win.setWin(true);
     			return win;
@@ -101,33 +92,33 @@ public class Map {
      * @param xOffset The x offset to apply when drawing the map.
      * @param yOffset The y offset to apply when drawing the map.
      */
-    public void draw(Graphics g, int xOffset, int yOffset) {
+    public void draw(Graphics graphics, int xOffset, int yOffset) {
         for (int row = 0; row < mapData.length; row++) {
             for (int col = 0; col < mapData[row].length; col++) {
                 switch(mapData[row][col]){
                 	case 1:
-	                	g.setColor(Color.BLACK);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.BLACK);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 	case 2:
-                		g.setColor(Color.BLUE);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.BLUE);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 	case 3:
-                		g.setColor(Color.RED);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.RED);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 	case 4:
-                		g.setColor(Color.LIGHT_GRAY);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.LIGHT_GRAY);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 	case 5:
-                		g.setColor(Color.DARK_GRAY);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.DARK_GRAY);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 	case 6:
-                		g.setColor(Color.GREEN);
-	                    g.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                		graphics.setColor(Color.GREEN);
+                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
 	                    break;
                 }
             }

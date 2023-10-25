@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -34,8 +35,9 @@ public class Wall {
      *
      * @param g The Graphics object on which to draw the wall.
      */
-    public void draw(Graphics g) {
-        g.fillRect(x, y, width, height); // Draws a rectangle (the wall) on the Graphics object
+    public void draw(Graphics graphics) {
+    	graphics.setColor(Color.red);
+    	graphics.fillRect(x, y, width, height); // Draws a rectangle (the wall) on the Graphics object
     }
 
     /**

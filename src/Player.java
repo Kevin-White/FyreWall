@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  * The Player class in a game manages player attributes, handles input, updates state, 
@@ -326,8 +328,9 @@ public class Player {
      *
      * @param g The Graphics object to protect.
      */
-    public void draw(Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect(x, y, size, size);
+    public void draw(Graphics graphics) {
+        ImageIcon icon = new ImageIcon("playerSkins/Default.png");
+        Image image = icon.getImage();
+        graphics.drawImage(image, x, y, size, size, null);
     }
 }

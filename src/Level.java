@@ -26,8 +26,9 @@ public class Level extends JPanel implements ActionListener {
     private Wall wall;    // Wall object representing a moving wall in the level
     private TextPrompt prompt[];    // Array of TextPrompt objects representing prompts in the level
     private int promptSize = 0;    // Size of the prompt array
-    private LevelSelect fyreWall;	//Holds the menu so you can exit the game
+    private LevelSelect levelSelect;	//Holds the menu so you can exit the game
     private Timer timer;
+    private String levelName;
 
 
 
@@ -39,10 +40,11 @@ public class Level extends JPanel implements ActionListener {
      * @param mapOne The first map to be used in the level.
      * @param mapTwo The second map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne, Map mapTwo, LevelSelect fyreWall) {
+    public Level(String levelName, int x, int y, Map mapOne, Map mapTwo, LevelSelect levelSelect) {
+    	this.levelName = levelName;
     	
     	//Assign a copy to the menu to the level
-    	this.fyreWall = fyreWall;
+    	this.levelSelect = levelSelect;
     	
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
@@ -69,8 +71,10 @@ public class Level extends JPanel implements ActionListener {
      * @param y The initial y-coordinate of the player.
      * @param mapOne The map to be used in the level.
      */
-    public Level(int x, int y, Map mapOne, LevelSelect fyreWall) {
-    	this.fyreWall = fyreWall;
+    public Level(String levelName, int x, int y, Map mapOne, LevelSelect levelSelect) {
+    	this.levelName = levelName;
+    	
+    	this.levelSelect = levelSelect;
     	
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
@@ -216,13 +220,25 @@ public class Level extends JPanel implements ActionListener {
         if (player.getWon()){
             // If so, stop the game timer
             animationTimer.stop();
+            Points points = new Points(levelName);
 
-            // Show a message dialog to congratulate the player
-            JOptionPane.showMessageDialog(null, "Congratulations, you finished the Level!", "You Got " + "0" + " Points", JOptionPane.INFORMATION_MESSAGE);
+            // Calculating points
+            points.calculateCurrentPoints(wall, currentMap);
 
+            // Saving points if greater than high score
+            if (points.getCurrentPoints() > points.getHighScore()) {
+            	 // Show a message dialog to congratulate the player
+                JOptionPane.showMessageDialog(null, "Congratulations, you finished the Level and got " + points.getCurrentPoints() + " points!\n"
+                		+ "This is better then your old score of " +  points.getHighScore() + "!", "Congratulations" , JOptionPane.INFORMATION_MESSAGE);
+               points.setHighScore();
+            }else {
+            	JOptionPane.showMessageDialog(null, "Congratulations, you finished the Level and got " + points.getCurrentPoints() + " points!\n"
+                		+ "However, this is not better then old score of " +  points.getHighScore() + "!", "Congratulations" , JOptionPane.INFORMATION_MESSAGE);
+            }
+            
             // Exit the game
-            fyreWall.dispose();
-            fyreWall = new LevelSelect();
+            levelSelect.dispose();
+            levelSelect = new LevelSelect();
             timer.stop();
         }
         
@@ -245,8 +261,8 @@ public class Level extends JPanel implements ActionListener {
             // If the player chooses to exit, exit the game
             if (n == JOptionPane.YES_OPTION) {
                 restartLevel();
-                fyreWall.dispose();
-                fyreWall = new LevelSelect();
+                levelSelect.dispose();
+                levelSelect = new LevelSelect();
                 timer.stop();
             } 
             // If the player chooses to restart, restart the level
@@ -281,32 +297,32 @@ public class Level extends JPanel implements ActionListener {
      * @param g The Graphics object to protect.
      */
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics graphics) {
         // Call the superclass's paintComponent method
-        super.paintComponent(g);
+        super.paintComponent(graphics);
         
         // Translate the Graphics object so that the player is always in the center of the screen
-        g.translate( - player.getX() + getWidth()/2  , - player.getY() + getHeight()/2);
+        graphics.translate( - player.getX() + getWidth()/2  , - player.getY() + getHeight()/2);
         
         // Draw the current map at the origin
-        currentMap.draw(g, 0, 0);
+        currentMap.draw(graphics, 0, 0);
        
         // Set the font for drawing text prompts
-        g.setFont(new Font("default", Font.BOLD, 20));
+        graphics.setFont(new Font("default", Font.BOLD, 20));
         
         // Draw each text prompt at its position
         for(int i = 0; i < promptSize; i++) {
-        	g.drawString(prompt[i].getText(), prompt[i].getX(), prompt[i].getY());
+        	graphics.drawString(prompt[i].getText(), prompt[i].getX(), prompt[i].getY());
         }
         
         // Draw the player at its position
-        player.draw(g);
+        player.draw(graphics);
        
         // Draw the wall at its position
-        wall.draw(g);
+        wall.draw(graphics);
  
         // Create a new Graphics2D object from the Graphics object
-        Graphics2D g2d = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D) graphics.create();
         
         // Set the color to black with alpha transparency
         g2d.setColor(new Color(0, 0, 0, alpha));

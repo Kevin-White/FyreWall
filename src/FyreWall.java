@@ -6,17 +6,30 @@ import java.awt.event.ActionListener;
 
 public class FyreWall extends JFrame {
     private static final long serialVersionUID = 1L;
-    JPanel menuPanel = new JPanel();
-    JButton levelSelectButton = new JButton("Level Select");
-    JButton exitButton = new JButton("Exit");
-    LevelSelect levelSelect;
+    private LevelSelect levelSelect;
+    private PointShop pointShop;
 
     public FyreWall() {
+        JPanel menuPanel = new JPanel();
+        JButton levelSelectButton = new JButton("Level Select");
+        JButton pointShopButton = new JButton("Point Shop");
+        JButton exitButton = new JButton("Exit");
+    	
         // Initialize menu
         levelSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 levelSelect = new LevelSelect();
                 dispose(); // Dispose the frame
+                
+
+            }
+        });
+        
+        pointShopButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                pointShop = new PointShop();
+                dispose(); // Dispose the frame
+                
 
             }
         });
@@ -28,6 +41,7 @@ public class FyreWall extends JFrame {
         });
 
         menuPanel.add(levelSelectButton);
+        menuPanel.add(pointShopButton);
         menuPanel.add(exitButton);
         add(menuPanel);
 
