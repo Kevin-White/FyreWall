@@ -4,11 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.io.File;
+import java.util.List;
+
+
 
 class PointShop extends JFrame {
     private static final long serialVersionUID = 1L;
     private FyreWall fyreWall;
+    private Points points = new Points();
 
     public PointShop() {
         setLayout(new BorderLayout());
@@ -19,7 +26,7 @@ class PointShop extends JFrame {
         JPanel defaultSkin = new JPanel();
         JPanel pineappleSkin = new JPanel();
         JButton backButton = new JButton("Back");
-        JTextField  pointsLabel = new JTextField ("Points");
+        JTextField  pointsLabel = new JTextField ("Points: " + points.getTotal());
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -35,10 +42,10 @@ class PointShop extends JFrame {
         pointHeader.add(pointsLabel);
 
         // Add the image and the buy button to the new panel
-        defaultSkin = itemPanel("Default", "Default.png");
-        zombieSkin = itemPanel("Zombie", "Zombie.png");
-        ghostSkin = itemPanel("Ghost", "Ghost.png");
-        pineappleSkin = itemPanel("Pineapple", "Pineapple.png");
+        defaultSkin = itemPanel(0 , "Default.png");
+        zombieSkin = itemPanel(100 , "Zombie.png");
+        ghostSkin = itemPanel(500 , "Ghost.png");
+        pineappleSkin = itemPanel(1000, "Pineapple.png");
 
         
         // Add the new panel to the main panel
@@ -57,15 +64,14 @@ class PointShop extends JFrame {
         setVisible(true); // Make the frame visible
     }
     
-    private JPanel itemPanel(String itemName, String imageName) {
+    private JPanel itemPanel(int itemCost, String imageName) {
         JPanel itemPanel = new JPanel();
         JButton buyButton = new JButton("Buy");
+        JTextField cost;
+        List<String> lockedSkins;
+        final int itemCostLocal;
 
-        buyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("You bought: " + itemName);
-            }
-        });
+        
     	
     	JLabel imageLabel = new JLabel();
          try {
@@ -74,6 +80,66 @@ class PointShop extends JFrame {
          } catch (IOException e) {
              e.printStackTrace();
          }
+
+      // Check if imageName is in "playerSkins/locked.txt"
+         try {
+             lockedSkins = Files.readAllLines(Paths.get("playerSkins/locked.txt"));
+             if (lockedSkins.contains(imageName)) {
+            	 itemCostLocal = itemCost;
+                 cost = new JTextField("" + itemCostLocal);
+                 cost.setEditable(false);
+                 if(itemCostLocal <= points.getTotal()) {
+                	cost.setBackground(Color.green);
+                 }else {
+                 	cost.setBackground(Color.red);
+                 }
+             }else {
+            	 cost = new JTextField("Owned");
+            	 buyButton.setText("Use");
+                 cost.setEditable(false);
+                 itemCostLocal = 0;
+             }
+         } catch (IOException e) {
+             e.printStackTrace();
+             return null;
+         }
+         
+         buyButton.addActionListener(new ActionListener() {
+        	    public void actionPerformed(ActionEvent e) {
+        	        if(itemCostLocal <= 0) {        	        	
+        	        	 // Delete the existing "currentSkin.pdf" file
+        	            try {
+        	                Files.deleteIfExists(Paths.get("playerSkins/currentSkin.png"));
+        	            } catch (IOException ex) {
+        	                ex.printStackTrace();
+        	            }
+
+        	            // Copy the new skin file to "currentSkin.pdf"
+        	            try {
+        	                Files.copy(Paths.get("playerSkins/" + imageName), Paths.get("playerSkins/currentSkin.png"), StandardCopyOption.REPLACE_EXISTING);
+        	            } catch (IOException ex) {
+        	                ex.printStackTrace();
+        	            }        	        
+        	        } else if( 0 < itemCostLocal && itemCostLocal <= points.getTotal()){
+
+        	            points.spendTotal(itemCostLocal);
+        	            // Remove the item from the locked skins list
+        	            lockedSkins.remove(imageName);
+        	            // Write the updated list back to the file
+        	            try {
+        	                Files.write(Paths.get("playerSkins/locked.txt"), lockedSkins);
+        	            } catch (IOException ex) {
+        	                ex.printStackTrace();
+        	            }
+        	            
+        	            PointShop pointshop = new PointShop();
+                        dispose();
+        	            
+        	        } else {
+        	        	// do nothing
+        	        }
+        	    }
+        	});
 
          // Create a new JPanel to hold the image and the buy button
          itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.PAGE_AXIS));
@@ -86,6 +152,7 @@ class PointShop extends JFrame {
 
          // Add the image and the buy button to the new panel
          itemPanel.add(imageLabel);
+         itemPanel.add(cost);
          itemPanel.add(buyButton);
 
          return itemPanel;

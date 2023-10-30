@@ -11,6 +11,12 @@ public class Points {
 	private int currentPoints = 0;
 	private String totalPointsFile = "Total_points";
 	
+	Points(){
+		this.levelName = null;
+		findHighScore();
+	}
+
+	
 	Points(String levelName){
 		this.levelName = levelName;
 		findHighScore();
@@ -103,5 +109,46 @@ public class Points {
 			highScore = currentPoints;
 		}
 		
+	}
+	
+	public int getTotal() {
+		int total = 0;
+		String filename = "pointsData/" + totalPointsFile + ".txt";
+		File file = new File(filename);
+        if (file.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(filename));
+                String lastLine = "";
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lastLine = line;
+                }
+                total = Integer.parseInt(lastLine);
+                reader.close();
+            } catch(IOException e) {
+                System.err.println("An error occurred while reading high score.");
+                e.printStackTrace();
+            }
+        }
+        
+        return total;
+	}
+	
+	public void spendTotal(int purchase) {
+		String filename = "pointsData/" + totalPointsFile + ".txt";
+		int total = getTotal();
+		
+		total =  total - purchase;
+		
+		 try {
+	            FileWriter writer = new FileWriter(filename, false); // Open in overwrite mode
+	            BufferedWriter buffer = new BufferedWriter(writer);
+	            buffer.write(Integer.toString(total));
+	            buffer.newLine();
+	            buffer.close();
+	        } catch(IOException e) {
+	            System.err.println("An error occurred while saving points.");
+	            e.printStackTrace();
+	        }
 	}
 }

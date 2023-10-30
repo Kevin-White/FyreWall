@@ -1,7 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.Image;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
@@ -26,6 +31,7 @@ public class Player {
     private Map mapTwo; // The second map for the game
     private boolean won = false; // Whether the player has won or not
     private Block block = new Block(true); // The type of block that the player last collided with
+    private BufferedImage currentSkin;
 
     /**
      * Constructor for the Player class.
@@ -37,6 +43,13 @@ public class Player {
         this.x = x; // Set the player's initial x-coordinate
         this.y = y; // Set the player's initial y-coordinate
         keys = new boolean[256]; // Initialize the keys array to track key presses
+        
+        try {
+            currentSkin = ImageIO.read(new File("playerSkins/currentSkin.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     
     /**
@@ -329,8 +342,7 @@ public class Player {
      * @param g The Graphics object to protect.
      */
     public void draw(Graphics graphics) {
-        ImageIcon icon = new ImageIcon("playerSkins/Default.png");
-        Image image = icon.getImage();
-        graphics.drawImage(image, x, y, size, size, null);
+        graphics.drawImage(currentSkin, x, y, size, size, null);
     }
+
 }
