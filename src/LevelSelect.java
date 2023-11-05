@@ -3,6 +3,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Toolkit;
+
+import javax.swing.JLayeredPane;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 class LevelSelect extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -10,25 +22,30 @@ class LevelSelect extends JFrame {
     // Add more buttons as needed...
 
     public LevelSelect() {
-        JPanel levelPanel = new JPanel();
+    	JPanel levelPanel = new JPanel(new GridBagLayout());
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Create a panel for the back button with a FlowLayout
+        GridBagConstraints gbc = new GridBagConstraints(); // Create a GridBagConstraints object
+
         JButton tutorialButton = new JButton("Tutorial");
         JButton backButton = new JButton("Back");
         JButton level1Button = new JButton("Level 1");
         JButton level2Button = new JButton("Level 2");
         JButton level3Button = new JButton("Level 3");
         JButton level4Button = new JButton("Level 4");
-        // Initialize level selection menu
-    	tutorialButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	initTutorialButton();
-                levelPanel.setVisible(false);
-                dispose(); // Dispose the frame
-                setUndecorated(true); // Now you can set undecorated state
-                setExtendedState(JFrame.MAXIMIZED_BOTH);
-                setVisible(true); // Make the frame visible again
-            }
-        });
-    	
+        
+        ImageIcon background =  new ImageIcon("menuImages/background.png");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(screenSize)); // Set to your preferred size
+        layeredPane.setLayout(null);
+
+        Image img = background.getImage() ;  
+        Image newimg = img.getScaledInstance(screenSize.width, screenSize.height,  java.awt.Image.SCALE_SMOOTH ) ; 
+        background = new ImageIcon(newimg);
+        JLabel backgroundLabel = new JLabel(background);
+        backgroundLabel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        
+        
     	backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	fyreWall = new FyreWall();
@@ -36,10 +53,24 @@ class LevelSelect extends JFrame {
             }
         });
     	
+    	
+        // Initialize level selection menu
+    	tutorialButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	initTutorialButton();
+            	layeredPane.setVisible(false);
+                dispose(); // Dispose the frame
+                setUndecorated(true); // Now you can set undecorated state
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true); // Make the frame visible again
+                levelPanel.requestFocusInWindow(); // Request focus on the levelPanel
+            }
+        });
+
     	level1Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 initLevel1();
-                levelPanel.setVisible(false);
+                layeredPane.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -50,7 +81,7 @@ class LevelSelect extends JFrame {
         level2Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	initLevel2();
-            	levelPanel.setVisible(false);
+            	layeredPane.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -61,7 +92,7 @@ class LevelSelect extends JFrame {
         level3Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	initLevel3();
-            	levelPanel.setVisible(false);
+            	layeredPane.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -72,7 +103,7 @@ class LevelSelect extends JFrame {
         level4Button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	initLevel4();
-            	levelPanel.setVisible(false);
+            	layeredPane.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -81,15 +112,39 @@ class LevelSelect extends JFrame {
         });
 
 
-        // Add more action listeners as needed...
-        levelPanel.add(tutorialButton);
-        levelPanel.add(backButton);
-        levelPanel.add(level1Button);
-        levelPanel.add(level2Button);
-        levelPanel.add(level3Button);
-        levelPanel.add(level4Button);        // Add more buttons to the panel as needed...
+        gbc.gridx = 0; // Set gridx to 0 for the first button
+        gbc.gridy = GridBagConstraints.RELATIVE; // Each component's gridy is one more than previous
+        gbc.anchor = GridBagConstraints.CENTER; // Center component in the cell
+        gbc.insets = new Insets(0, 10, 10, 0); // Add some space between the buttons
 
-        add(levelPanel);
+        gbc.gridx = 0; // Set gridx to 1 for the second button
+        levelPanel.add(tutorialButton, gbc); // Add gbc as a parameter
+        
+        gbc.gridx = 1; // Set gridx to 1 for the second button
+        levelPanel.add(level1Button, gbc); // Add gbc as a parameter
+
+        gbc.gridx = 2; // Set gridx to 1 for the second button
+        levelPanel.add(level2Button, gbc); // Add gbc as a parameter
+
+        gbc.gridx = 0; // Set gridx to 2 for the third button
+        levelPanel.add(level3Button, gbc); // Add gbc as a parameter
+
+        gbc.gridx = 1; // Set gridx back to 0 for the fourth button
+        levelPanel.add(level4Button, gbc); // Add gbc as a parameter
+
+        backButtonPanel.add(backButton); // Add backButton to the backButtonPanel
+        backButtonPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        backButtonPanel.setOpaque(false); // Make backButtonPanel transparent
+
+        levelPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        levelPanel.setOpaque(false); // Make levelPanel transparent
+
+        // Add the backButtonPanel and levelPanel to the top layer of the layeredPane
+        layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(backButtonPanel, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(levelPanel, JLayeredPane.PALETTE_LAYER);
+
+        add(layeredPane);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation
         setUndecorated(true);

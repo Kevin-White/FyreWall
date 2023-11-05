@@ -8,8 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +23,8 @@ public class FyreWall extends JFrame {
 
     public FyreWall() {
         JPanel menuPanel = new JPanel(new GridBagLayout()); // Set layout to GridBagLayout    
+        GridBagConstraints gbc = new GridBagConstraints(); // Create a GridBagConstraints object
+
 
         JButton levelSelectButton = new JButton("Level Select");
         JButton pointShopButton = new JButton("Point Shop");
@@ -66,9 +70,15 @@ public class FyreWall extends JFrame {
             }
         });
 
-        menuPanel.add(levelSelectButton);
-        menuPanel.add(pointShopButton);
-        menuPanel.add(exitButton);
+        gbc.gridx = 0; // Set gridx to 0 for all buttons
+        gbc.gridy = GridBagConstraints.RELATIVE; // Each component's gridy is one more than previous
+        gbc.anchor = GridBagConstraints.CENTER; // Center component in the cell
+        gbc.insets = new Insets(10, 0, 10, 0); // Add some space between the buttons
+
+        menuPanel.add(levelSelectButton, gbc); // Add gbc as a parameter
+        menuPanel.add(pointShopButton, gbc); // Add gbc as a parameter
+        menuPanel.add(exitButton, gbc); // Add gbc as a parameter
+        
         menuPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
 
         menuPanel.setOpaque(false); // Make menuPanel transparent
@@ -86,7 +96,6 @@ public class FyreWall extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true); // Make the frame visible
     }
-
     public static void main(String[] args) {
         new FyreWall();
     }

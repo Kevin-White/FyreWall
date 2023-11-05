@@ -28,6 +28,20 @@ class PointShop extends JFrame {
         JPanel mrSpicySkin = new JPanel();
         JButton backButton = new JButton("Back");
         JTextField  pointsLabel = new JTextField ("Points: " + points.getTotal());
+        JPanel headerPanel = new JPanel();
+
+
+        ImageIcon background =  new ImageIcon("menuImages/background.png");
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setPreferredSize(new Dimension(screenSize)); // Set to your preferred size
+        layeredPane.setLayout(null);
+
+        Image img = background.getImage() ;  
+        Image newimg = img.getScaledInstance(screenSize.width, screenSize.height,  java.awt.Image.SCALE_SMOOTH ) ; 
+        background = new ImageIcon(newimg);
+        JLabel backgroundLabel = new JLabel(background);
+        backgroundLabel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
 
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -36,30 +50,34 @@ class PointShop extends JFrame {
             }
         });
 
-        
-        
         pointsLabel.setEditable(false);
         pointHeader.add(backButton);
         pointHeader.add(pointsLabel);
+        headerPanel.setOpaque(false);
+        headerPanel.add(pointHeader);
+        headerPanel.setBounds(0, 0, screenSize.width, 100); // Set height to your preferred value
 
-        // Add the image and the buy button to the new panel
+
         defaultSkin = itemPanel(0 , "Default.png");
         zombieSkin = itemPanel(100 , "Zombie.png");
         ghostSkin = itemPanel(500 , "Ghost.png");
         sirPlatanoSkin = itemPanel(1000, "sirPlatano.png");
         mrSpicySkin = itemPanel(2000, "mrSpicy.png");
 
-        
-        // Add the new panel to the main panel
         pointPanel.add(defaultSkin);
         pointPanel.add(zombieSkin);
         pointPanel.add(ghostSkin);
         pointPanel.add(sirPlatanoSkin);
         pointPanel.add(mrSpicySkin);
 
-        
-        add(pointHeader, BorderLayout.NORTH);
-        add(pointPanel, BorderLayout.CENTER);
+        pointPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        pointPanel.setOpaque(false); // Make menuPanel transparent
+
+        layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(headerPanel, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(pointPanel, JLayeredPane.PALETTE_LAYER);
+
+        add(layeredPane);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set default close operation
         setUndecorated(true);
