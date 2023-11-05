@@ -1,2 +1,4 @@
+Ghost.png
 Zombie.png
-Pineapple.png
+mrSpicy.png
+sirPlatano.png

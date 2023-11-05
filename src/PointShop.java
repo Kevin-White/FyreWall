@@ -24,7 +24,8 @@ class PointShop extends JFrame {
         JPanel zombieSkin = new JPanel();
         JPanel ghostSkin = new JPanel();
         JPanel defaultSkin = new JPanel();
-        JPanel pineappleSkin = new JPanel();
+        JPanel sirPlatanoSkin = new JPanel();
+        JPanel mrSpicySkin = new JPanel();
         JButton backButton = new JButton("Back");
         JTextField  pointsLabel = new JTextField ("Points: " + points.getTotal());
 
@@ -45,14 +46,16 @@ class PointShop extends JFrame {
         defaultSkin = itemPanel(0 , "Default.png");
         zombieSkin = itemPanel(100 , "Zombie.png");
         ghostSkin = itemPanel(500 , "Ghost.png");
-        pineappleSkin = itemPanel(1000, "Pineapple.png");
+        sirPlatanoSkin = itemPanel(1000, "sirPlatano.png");
+        mrSpicySkin = itemPanel(2000, "mrSpicy.png");
 
         
         // Add the new panel to the main panel
         pointPanel.add(defaultSkin);
         pointPanel.add(zombieSkin);
         pointPanel.add(ghostSkin);
-        pointPanel.add(pineappleSkin);
+        pointPanel.add(sirPlatanoSkin);
+        pointPanel.add(mrSpicySkin);
 
         
         add(pointHeader, BorderLayout.NORTH);

@@ -1,5 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.awt.Image;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 /**
  * The Player class in a game manages player attributes, handles input, updates state, 
@@ -32,6 +31,7 @@ public class Player {
     private boolean won = false; // Whether the player has won or not
     private Block block = new Block(true); // The type of block that the player last collided with
     private BufferedImage currentSkin;
+    private int lastKeyPressed = -1;
 
     /**
      * Constructor for the Player class.
@@ -151,6 +151,7 @@ public class Player {
      */
     public void keyPressed(int keyCode) {
         keys[keyCode] = true; // Mark the key as pressed
+        lastKeyPressed = keyCode;
     }
 
     /**
@@ -342,7 +343,41 @@ public class Player {
      * @param g The Graphics object to protect.
      */
     public void draw(Graphics graphics) {
-        graphics.drawImage(currentSkin, x, y, size, size, null);
+        // Determine which skin to use based on the last key pressed
+        Image skinToUse = currentSkin;
+        int skinWidth = skinToUse.getWidth(null);
+        int skinHeight = skinToUse.getHeight(null);
+
+        // Create a new Graphics2D object from the original graphics object
+        Graphics2D g2d = (Graphics2D) graphics.create();
+
+        if (gravity < 0) { // If gravity is less than 0
+            // Flip the image vertically
+            g2d.translate(x, y + skinHeight);
+            g2d.scale(1, -1);
+            
+            if (lastKeyPressed == KeyEvent.VK_A) { // 'A' key for left
+                // Flip the image horizontally
+                g2d.translate(skinWidth, 0);
+                g2d.scale(-1, 1);
+            }
+            
+            g2d.drawImage(skinToUse, 0, 0, size, size, null);
+        } else if (lastKeyPressed == KeyEvent.VK_A) { // 'A' key for left
+            // Flip the image horizontally
+            g2d.translate(x + skinWidth, y);
+            g2d.scale(-1, 1);
+            g2d.drawImage(skinToUse, 0, 0, size, size, null);
+        } else if (lastKeyPressed == KeyEvent.VK_D) { // 'D' key for right
+            g2d.drawImage(skinToUse, x, y, size, size, null);
+        } else {
+            g2d.drawImage(skinToUse, x, y, size, size, null);
+        }
+
+        // Dispose the Graphics2D object to free up system resources and improve performance
+        g2d.dispose();
     }
+
+
 
 }
