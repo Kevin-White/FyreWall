@@ -170,19 +170,20 @@ public class Player {
     public void update() {
 
         // If the W key is pressed and the player can jump, make the player jump
-        if (keys[KeyEvent.VK_W] && canJump) {
+        if ((keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_SPACE]) && canJump) {
             velocityY -= jumpSpeed;
             canJump = false;
         }
         
      // If the S key is pressed and gravity is non-negative, increase the player's downward velocity
-        if (keys[KeyEvent.VK_S] && gravity >= 0) velocityY += blockSpeed;
+        if ((keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]) && gravity >= 0) velocityY += blockSpeed;
         // If the A key is pressed, decrease the player's horizontal velocity to move left
-        if (keys[KeyEvent.VK_A]) velocityX -= blockSpeed;
+        if (keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]) velocityX -= blockSpeed;
         // If the D key is pressed, increase the player's horizontal velocity to move right
-        if (keys[KeyEvent.VK_D]) velocityX += blockSpeed;
+        if (keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]) velocityX += blockSpeed;
+        
         // If the SPACE key is pressed and there is a second map, switch to it after a delay since last map switch
-        if (keys[KeyEvent.VK_SPACE] && mapTwo != null) {
+        if (keys[KeyEvent.VK_CONTROL] && mapTwo != null) {
             // 1000 is the delay in milliseconds. Adjust as needed.
             if (System.currentTimeMillis() - lastMapChange > 500) { 
             	lastMapChange = System.currentTimeMillis();
@@ -356,19 +357,19 @@ public class Player {
             g2d.translate(x, y + skinHeight);
             g2d.scale(1, -1);
             
-            if (lastKeyPressed == KeyEvent.VK_A) { // 'A' key for left
+            if (lastKeyPressed == KeyEvent.VK_A || lastKeyPressed == KeyEvent.VK_LEFT) { // 'A' key for left
                 // Flip the image horizontally
                 g2d.translate(skinWidth, 0);
                 g2d.scale(-1, 1);
             }
             
             g2d.drawImage(skinToUse, 0, 0, size, size, null);
-        } else if (lastKeyPressed == KeyEvent.VK_A) { // 'A' key for left
+        } else if (lastKeyPressed == KeyEvent.VK_A || lastKeyPressed == KeyEvent.VK_LEFT) { // 'A' key for left
             // Flip the image horizontally
             g2d.translate(x + skinWidth, y);
             g2d.scale(-1, 1);
             g2d.drawImage(skinToUse, 0, 0, size, size, null);
-        } else if (lastKeyPressed == KeyEvent.VK_D) { // 'D' key for right
+        } else if (lastKeyPressed == KeyEvent.VK_D || lastKeyPressed == KeyEvent.VK_RIGHT) { // 'D' key for right
             g2d.drawImage(skinToUse, x, y, size, size, null);
         } else {
             g2d.drawImage(skinToUse, x, y, size, size, null);

@@ -7,7 +7,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -15,6 +18,9 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.*;
+
 
 public class FyreWall extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -37,7 +43,6 @@ public class FyreWall extends JFrame {
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(screenSize)); // Set to your preferred size
         layeredPane.setLayout(null);
-    	
         
         Image img = background.getImage() ;  
         Image newimg = img.getScaledInstance(screenSize.width, screenSize.height,  java.awt.Image.SCALE_SMOOTH ) ; 
@@ -69,7 +74,11 @@ public class FyreWall extends JFrame {
                 System.exit(0);
             }
         });
-
+        
+        levelSelectButton = mainButtonStyle(levelSelectButton);
+        pointShopButton = mainButtonStyle(pointShopButton);
+        exitButton = mainButtonStyle(exitButton);
+        
         gbc.gridx = 0; // Set gridx to 0 for all buttons
         gbc.gridy = GridBagConstraints.RELATIVE; // Each component's gridy is one more than previous
         gbc.anchor = GridBagConstraints.CENTER; // Center component in the cell
@@ -96,6 +105,37 @@ public class FyreWall extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true); // Make the frame visible
     }
+    
+    private JButton mainButtonStyle(JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/mainButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(200, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
+    
     public static void main(String[] args) {
         new FyreWall();
     }

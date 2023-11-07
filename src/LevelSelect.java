@@ -3,6 +3,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -13,8 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
 
 class LevelSelect extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -27,7 +32,7 @@ class LevelSelect extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints(); // Create a GridBagConstraints object
 
         JButton tutorialButton = new JButton("Tutorial");
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("<-");
         JButton level1Button = new JButton("Level 1");
         JButton level2Button = new JButton("Level 2");
         JButton level3Button = new JButton("Level 3");
@@ -111,6 +116,14 @@ class LevelSelect extends JFrame {
             }
         });
 
+        tutorialButton = mainButtonStyle(tutorialButton);
+        level1Button = mainButtonStyle(level1Button);
+        level2Button = mainButtonStyle(level2Button);
+        level3Button = mainButtonStyle(level3Button);
+        level4Button = mainButtonStyle(level4Button);
+        
+        backButton = backButtonStyle(backButton);
+
 
         gbc.gridx = 0; // Set gridx to 0 for the first button
         gbc.gridy = GridBagConstraints.RELATIVE; // Each component's gridy is one more than previous
@@ -150,6 +163,96 @@ class LevelSelect extends JFrame {
         setUndecorated(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true); // Make the frame visible
+    }
+    
+    private JButton buttonStyle(JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/mainButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(200, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
+    
+    private JButton mainButtonStyle(JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/backButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(200, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
+    
+    private JButton backButtonStyle (JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/backButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(72, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
     }
     
     private void initTutorialButton() {
@@ -195,10 +298,10 @@ class LevelSelect extends JFrame {
 	        // Add the game panel
 	        Level gamePanel = new Level("Tutorial",100, 100, mapOne, mapTwo, this);
 	        gamePanel.addPrompt("Quick Don't let the FyreWall catch you!",200, 100);
-	        gamePanel.addPrompt("Press \"D\" to move right.",200, 150);
-	        gamePanel.addPrompt("Press \"A\" to move left.", 900, 150);
-	        gamePanel.addPrompt("Press \"W\" to jump.", 1000, 600);
-	        gamePanel.addPrompt("Press \"SPACE\" switch dimensions.", 2000, 300);
+	        gamePanel.addPrompt("Press \"D\" OR \"->\" to move right.",200, 150);
+	        gamePanel.addPrompt("Press \"A\" OR \"<-\" to move left.", 900, 150);
+	        gamePanel.addPrompt("Press \"W\" OR \"^\" to jump.", 1000, 600);
+	        gamePanel.addPrompt("Press \"CTRL\" switch dimensions.", 2000, 300);
 	        gamePanel.addPrompt("Some blocks slow you down...", 2700, 600);
 	        gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
 	        gamePanel.addPrompt("You will need a types of blocks to help you on your way!", 5000, 600); 

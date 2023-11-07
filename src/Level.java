@@ -3,10 +3,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import java.awt.*;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -29,6 +34,11 @@ public class Level extends JPanel implements ActionListener {
     private LevelSelect levelSelect;	//Holds the menu so you can exit the game
     private Timer timer;
     private String levelName;
+    
+    private BufferedImage backgroundImage0;
+    private BufferedImage backgroundImage1;
+    private int backgroundX = 0;
+
 
 
 
@@ -139,6 +149,16 @@ public class Level extends JPanel implements ActionListener {
         // Create a new player at the given coordinates
     	player = new Player(x, y);
 
+        try {
+			backgroundImage0 = ImageIO.read(new File("levelImages/background0.png"));
+			backgroundImage1 = ImageIO.read(new File("levelImages/background1.png"));
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	
         // Add a key listener to handle player's key presses and releases
         addKeyListener(new KeyAdapter() {
             @Override
@@ -301,6 +321,13 @@ public class Level extends JPanel implements ActionListener {
         // Call the superclass's paintComponent method
         super.paintComponent(graphics);
         
+     // Draw the background image
+        graphics.drawImage(backgroundImage0, 0, 0, getWidth(), getHeight(), this);
+        
+     // Draw the background image at the current x position, scaled to the component's size
+        graphics.drawImage(backgroundImage1, (0 - (player.getX() / 2) % getWidth()), 0, getWidth(), getHeight(), this);
+        graphics.drawImage(backgroundImage1, (0 - (player.getX() / 2) % getWidth()) + getWidth(), 0, getWidth(), getHeight(), this);
+        
         // Translate the Graphics object so that the player is always in the center of the screen
         graphics.translate( - player.getX() + getWidth()/2  , - player.getY() + getHeight()/2);
         
@@ -332,6 +359,8 @@ public class Level extends JPanel implements ActionListener {
         
         // Dispose of this Graphics2D object to free up system resources and to improve performance
         g2d.dispose();
+        
+
     }
 
 

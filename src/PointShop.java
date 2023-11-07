@@ -53,9 +53,10 @@ class PointShop extends JFrame {
         pointsLabel.setEditable(false);
         pointHeader.add(backButton);
         pointHeader.add(pointsLabel);
-        headerPanel.setOpaque(false);
         headerPanel.add(pointHeader);
         headerPanel.setBounds(0, 0, screenSize.width, 100); // Set height to your preferred value
+        headerPanel.setOpaque(false);
+
 
 
         defaultSkin = itemPanel(0 , "Default.png");
