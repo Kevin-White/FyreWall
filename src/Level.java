@@ -37,9 +37,6 @@ public class Level extends JPanel implements ActionListener {
     
     private BufferedImage backgroundImage0;
     private BufferedImage backgroundImage1;
-    private int backgroundX = 0;
-
-
 
 
     /**

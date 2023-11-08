@@ -1,5 +1,13 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.Image;
+
+
+import javax.imageio.ImageIO;
 
 /**
  * The Map class represents a game map with various attributes.
@@ -8,7 +16,14 @@ import java.awt.Graphics;
  */
 public class Map {
     private int[][] mapData; // 2D array to store the map data
-    private int tileSize;   // Size of each tile in pixels    
+    private int tileSize;   // Size of each tile in pixels   
+    private BufferedImage basicImage;
+    private BufferedImage iceImage;
+    private BufferedImage fireImage;
+    private BufferedImage antiImage;
+    private BufferedImage resetImage;
+    private BufferedImage finalImage;
+
     /**
      * Constructor for the Map class.
      * It initializes a Map object with specific map data and tile size.
@@ -18,7 +33,19 @@ public class Map {
      */
     public Map(int[][] mapData, int tileSize) {
         this.mapData = mapData;
-        this.tileSize = tileSize;    
+        this.tileSize = tileSize;  
+        
+        try {
+        	basicImage = ImageIO.read(new File("levelImages/basicFloor.png"));
+        	iceImage = ImageIO.read(new File("levelImages/iceFloor.png"));
+        	fireImage = ImageIO.read(new File("levelImages/fireFloor.png"));
+        	antiImage = ImageIO.read(new File("levelImages/antiFloor.png"));
+        	resetImage = ImageIO.read(new File("levelImages/resetFloor.png"));
+        	finalImage = ImageIO.read(new File("levelImages/finalFloor.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     // Getter methods for the height, width, and tile size of the map
@@ -93,35 +120,41 @@ public class Map {
      * @param yOffset The y offset to apply when drawing the map.
      */
     public void draw(Graphics graphics, int xOffset, int yOffset) {
+    	Image block1 = basicImage;
+    	Image block2 = iceImage;
+    	Image block3 = fireImage;
+    	Image block4 = antiImage;
+    	Image block5 = resetImage;
+    	Image block6 = finalImage;
+    	
+    	Graphics2D g2d = (Graphics2D) graphics.create();
+
+
         for (int row = 0; row < mapData.length; row++) {
             for (int col = 0; col < mapData[row].length; col++) {
                 switch(mapData[row][col]){
                 	case 1:
-                		graphics.setColor(Color.BLACK);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block1, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
 	                    break;
                 	case 2:
-                		graphics.setColor(Color.BLUE);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block2, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
+
 	                    break;
                 	case 3:
-                		graphics.setColor(Color.RED);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block3, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
 	                    break;
                 	case 4:
-                		graphics.setColor(Color.LIGHT_GRAY);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block4, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
 	                    break;
                 	case 5:
-                		graphics.setColor(Color.DARK_GRAY);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block5, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
 	                    break;
                 	case 6:
-                		graphics.setColor(Color.GREEN);
-                		graphics.fillRect(col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize);
+                        g2d.drawImage(block6, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
 	                    break;
                 }
             }
         }
+        g2d.dispose();
     }
 }
