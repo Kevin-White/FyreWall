@@ -34,6 +34,8 @@ public class Level extends JPanel implements ActionListener {
     private LevelSelect levelSelect;	//Holds the menu so you can exit the game
     private Timer timer;
     private String levelName;
+    private boolean[] keys; // An array to track key presses
+
     
     private BufferedImage backgroundImage0;
     private BufferedImage backgroundImage1;
@@ -53,6 +55,8 @@ public class Level extends JPanel implements ActionListener {
     	//Assign a copy to the menu to the level
     	this.levelSelect = levelSelect;
     	
+        keys = new boolean[256]; // Initialize the keys array to track key presses
+
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
     	
@@ -83,6 +87,8 @@ public class Level extends JPanel implements ActionListener {
     	
     	this.levelSelect = levelSelect;
     	
+        keys = new boolean[256]; // Initialize the keys array to track key presses
+
     	// Set up the level with initial player coordinates
     	levelSetup(x, y);
     	
@@ -162,12 +168,16 @@ public class Level extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 // Call player's keyPressed method when a key is pressed
                 player.keyPressed(e.getKeyCode());
+                keys[e.getKeyCode()] = true; // Mark the key as pressed
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 // Call player's keyReleased method when a key is released
                 player.keyReleased(e.getKeyCode());
+                keys[e.getKeyCode()] = false; // Mark the key as pressed
+
             }
         });
 
@@ -195,7 +205,7 @@ public class Level extends JPanel implements ActionListener {
         });
         
         // Create a new wall at the given coordinates
-        wall = new Wall(-5500, -2500);
+        wall = new Wall(-2500, -2500);
     }
 
     /**
@@ -260,21 +270,33 @@ public class Level extends JPanel implements ActionListener {
         }
         
         // Check if the wall has passed the player
-        if (wall.getX() + wall.getWidth() > player.getX()) {
+        if (wall.getX() + wall.getWidth() > player.getX() || keys[KeyEvent.VK_ESCAPE]) {
             // If so, stop the game timer
             animationTimer.stop();
 
             // Show a dialog with options to exit or restart
             Object[] options = {"Exit", "Restart"};
-            int n = JOptionPane.showOptionDialog(null,
-                "The wall has passed you. Would you like to exit or restart?",
-                "Game Over",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[1]);
-
+            int n;
+            if( keys[KeyEvent.VK_ESCAPE]) {
+            	n = JOptionPane.showOptionDialog(null,
+                        "You have paused the game. Would you like to exit or restart?",
+                        "Pause Menu",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[1]);
+            }else {
+            	n = JOptionPane.showOptionDialog(null,
+                        "The wall has passed you. Would you like to exit or restart?",
+                        "Game Over",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[1]);            	
+            }
+            
             // If the player chooses to exit, exit the game
             if (n == JOptionPane.YES_OPTION) {
                 restartLevel();
@@ -301,7 +323,7 @@ public class Level extends JPanel implements ActionListener {
         player.setMap(mapOne, mapTwo);
         
         // Recreate the wall at the original position
-        wall = new Wall(-5500, -2500);
+        wall = new Wall(-2500, -2500);
         
         // Repaint the component
         repaint();
@@ -329,7 +351,7 @@ public class Level extends JPanel implements ActionListener {
         graphics.translate( - player.getX() + getWidth()/2  , - player.getY() + getHeight()/2);
         
         // Draw the current map at the origin
-        currentMap.draw(graphics, 0, 0);
+        currentMap.draw(graphics, player.getX(),player.getY());
        
         // Set the font for drawing text prompts
         graphics.setFont(new Font("default", Font.BOLD, 20));

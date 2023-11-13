@@ -6,6 +6,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -53,19 +55,27 @@ public class FyreWall extends JFrame {
         // Initialize menu
         levelSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                levelSelect = new LevelSelect();
-                dispose(); // Dispose the frame
-                
-
+            	levelSelect = new LevelSelect();
+                levelSelect.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        dispose(); // Dispose the current JFrame here
+                    }
+                });
             }
         });
         
         pointShopButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 pointShop = new PointShop();
-                dispose(); // Dispose the frame
-                
-
+                pointShop.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        dispose(); // Dispose the current JFrame here
+                    }
+                });                
             }
         });
 

@@ -17,12 +17,15 @@ import javax.imageio.ImageIO;
 public class Map {
     private int[][] mapData; // 2D array to store the map data
     private int tileSize;   // Size of each tile in pixels   
-    private BufferedImage basicImage;
-    private BufferedImage iceImage;
-    private BufferedImage fireImage;
-    private BufferedImage antiImage;
-    private BufferedImage resetImage;
-    private BufferedImage finalImage;
+    private Image basicImage;
+    private Image iceImage;
+    private Image fireImage;
+    private Image antiImage;
+    private Image resetImage;
+    private Image finalImage;
+    private int originalXOffset = 0;
+    private int originalYOffset = 0;
+
 
     /**
      * Constructor for the Map class.
@@ -120,38 +123,40 @@ public class Map {
      * @param yOffset The y offset to apply when drawing the map.
      */
     public void draw(Graphics graphics, int xOffset, int yOffset) {
-    	Image block1 = basicImage;
-    	Image block2 = iceImage;
-    	Image block3 = fireImage;
-    	Image block4 = antiImage;
-    	Image block5 = resetImage;
-    	Image block6 = finalImage;
-    	
-    	Graphics2D g2d = (Graphics2D) graphics.create();
+        
+        Graphics2D g2d = (Graphics2D) graphics.create();
 
+        int screenWidth = g2d.getClipBounds().width;
+        int screenHeight = g2d.getClipBounds().height;
 
         for (int row = 0; row < mapData.length; row++) {
             for (int col = 0; col < mapData[row].length; col++) {
-                switch(mapData[row][col]){
-                	case 1:
-                        g2d.drawImage(block1, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
-	                    break;
-                	case 2:
-                        g2d.drawImage(block2, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
+                int x = col * tileSize;
+                int y = row * tileSize;
+                
+                if (x > xOffset + screenWidth/2 || x < xOffset - screenWidth/2 || y > yOffset + screenHeight/2 || y < yOffset - screenHeight/2) {
+                    continue; // Skip drawing if outside of screen bounds
+                }
 
-	                    break;
-                	case 3:
-                        g2d.drawImage(block3, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
-	                    break;
-                	case 4:
-                        g2d.drawImage(block4, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
-	                    break;
-                	case 5:
-                        g2d.drawImage(block5, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
-	                    break;
-                	case 6:
-                        g2d.drawImage(block6, col * tileSize + xOffset, row * tileSize + yOffset, tileSize, tileSize, null);
-	                    break;
+                switch(mapData[row][col]){
+                    case 1:
+                        g2d.drawImage(basicImage, x, y, tileSize, tileSize, null);
+                        break;
+                    case 2:
+                        g2d.drawImage(iceImage, x, y, tileSize, tileSize, null);
+                        break;
+                    case 3:
+                        g2d.drawImage(fireImage, x, y, tileSize, tileSize, null);
+                        break;
+                    case 4:
+                        g2d.drawImage(antiImage, x, y, tileSize, tileSize, null);
+                        break;
+                    case 5:
+                        g2d.drawImage(resetImage, x, y, tileSize, tileSize, null);
+                        break;
+                    case 6:
+                        g2d.drawImage(finalImage, x, y, tileSize, tileSize, null);
+                        break;
                 }
             }
         }

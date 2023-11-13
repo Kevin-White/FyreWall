@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,9 +29,10 @@ class PointShop extends JFrame {
         JPanel defaultSkin = new JPanel();
         JPanel sirPlatanoSkin = new JPanel();
         JPanel mrSpicySkin = new JPanel();
-        JButton backButton = new JButton("Back");
-        JTextField  pointsLabel = new JTextField ("Points: " + points.getTotal());
-        JPanel headerPanel = new JPanel();
+        JButton backButton = new JButton("<-");
+        JTextField  pointsLabel = new JTextField (" Points: " + points.getTotal() + " ");
+        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Create a panel for the back button with a FlowLayout
 
 
         ImageIcon background =  new ImageIcon("menuImages/background.png");
@@ -46,15 +50,30 @@ class PointShop extends JFrame {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 fyreWall = new FyreWall();
-                dispose();
+                fyreWall.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        dispose(); // Dispose the current JFrame here
+                    }
+                });
             }
         });
 
+        backButton = backButtonStyle(backButton);
+        
+        backButtonPanel.add(backButton); // Add backButton to the backButtonPanel
+        backButtonPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        backButtonPanel.setOpaque(false); // Make backButtonPanel transparent
+
         pointsLabel.setEditable(false);
-        pointHeader.add(backButton);
-        pointHeader.add(pointsLabel);
-        headerPanel.add(pointHeader);
-        headerPanel.setBounds(0, 0, screenSize.width, 100); // Set height to your preferred value
+        pointsLabel.setBackground(new Color(255, 255, 255, 50)); // RGBA values, A for alpha (transparency)
+        pointsLabel.setFont(new Font("Arial", Font.PLAIN, 20)); // Change the font size to your preference
+        pointsLabel.setForeground(new Color(255, 255, 255));
+        pointsLabel.setBorder(null); // Remove the border
+
+        headerPanel.add(pointsLabel);
+        headerPanel.setBounds(screenSize.width / 2 - 75, 0, 150, 150); // Set height to your preferred value
         headerPanel.setOpaque(false);
 
 
@@ -75,6 +94,7 @@ class PointShop extends JFrame {
         pointPanel.setOpaque(false); // Make menuPanel transparent
 
         layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(backButtonPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(headerPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(pointPanel, JLayeredPane.PALETTE_LAYER);
 
@@ -93,12 +113,13 @@ class PointShop extends JFrame {
         List<String> lockedSkins;
         final int itemCostLocal;
 
-        
+        buyButton = mainButtonStyle(buyButton);
     	
     	JLabel imageLabel = new JLabel();
          try {
              ImageIcon imageIcon = new ImageIcon(ImageIO.read(new File("playerSkins/" + imageName)));
              imageLabel.setIcon(imageIcon);
+             imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Add this line
          } catch (IOException e) {
              e.printStackTrace();
          }
@@ -155,7 +176,13 @@ class PointShop extends JFrame {
         	            }
         	            
         	            PointShop pointshop = new PointShop();
-                        dispose();
+        	            pointshop.addWindowListener(new WindowAdapter() {
+                            @Override
+                            public void windowClosed(WindowEvent e) {
+                                super.windowClosed(e);
+                                dispose(); // Dispose the current JFrame here
+                            }
+                        });
         	            
         	        } else {
         	        	// do nothing
@@ -169,9 +196,9 @@ class PointShop extends JFrame {
          // Add padding to the left and right of the image and button
          itemPanel.setBorder(BorderFactory.createCompoundBorder(
              BorderFactory.createLineBorder(Color.BLACK), 
-             BorderFactory.createEmptyBorder(0, 10, 0, 10) // top, left, bottom, right padding
+             BorderFactory.createEmptyBorder(10, 10, 10, 10) // top, left, bottom, right padding
          ));
-
+         itemPanel.setBackground(new Color(255, 255, 255, 50));
          // Add the image and the buy button to the new panel
          itemPanel.add(imageLabel);
          itemPanel.add(cost);
@@ -180,6 +207,65 @@ class PointShop extends JFrame {
          return itemPanel;
     }
     
+    private JButton backButtonStyle (JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/backButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(72, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
+    
+    private JButton mainButtonStyle(JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/mainButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(100, 36,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(10f);
+
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
 
 }
 

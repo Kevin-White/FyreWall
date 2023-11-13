@@ -8,7 +8,7 @@ import java.awt.Graphics;
 public class Wall {
     private int x, y; // The x and y coordinates of the wall
     private int speed = 5; // The speed at which the wall moves
-    private static int width = 5000; // The width of the wall
+    private static int width = 2000; // The width of the wall
     private static int height = 5000; // The height of the wall
 
     /**
