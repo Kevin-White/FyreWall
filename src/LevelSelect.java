@@ -5,8 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -39,6 +43,7 @@ class LevelSelect extends JFrame {
         JButton level2Button = new JButton("Level 2");
         JButton level3Button = new JButton("Level 3");
         JButton level4Button = new JButton("Level 4");
+        JButton level5Button = new JButton("Level 5");
         
         ImageIcon background =  new ImageIcon("menuImages/background.png");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -123,12 +128,30 @@ class LevelSelect extends JFrame {
                 setVisible(true); // Make the frame visible again
             }
         });
+        
+        level5Button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	try {
+					initLevel5();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            	layeredPane.setVisible(false);
+                dispose(); // Dispose the frame
+                setUndecorated(true); // Now you can set undecorated state
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true); // Make the frame visible again
+            }
+        });
 
         tutorialButton = mainButtonStyle(tutorialButton);
         level1Button = mainButtonStyle(level1Button);
         level2Button = mainButtonStyle(level2Button);
         level3Button = mainButtonStyle(level3Button);
         level4Button = mainButtonStyle(level4Button);
+        level5Button = mainButtonStyle(level5Button);
+
         
         backButton = backButtonStyle(backButton);
 
@@ -152,6 +175,9 @@ class LevelSelect extends JFrame {
 
         gbc.gridx = 1; // Set gridx back to 0 for the fourth button
         levelPanel.add(level4Button, gbc); // Add gbc as a parameter
+        
+        gbc.gridx = 2; // Set gridx back to 0 for the fourth button
+        levelPanel.add(level5Button, gbc); // Add gbc as a parameter
 
         backButtonPanel.add(backButton); // Add backButton to the backButtonPanel
         backButtonPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
@@ -577,7 +603,44 @@ class LevelSelect extends JFrame {
     	    			    	    	add(gamePanel);     
     	    			}
 
-    	    	
+    private void initLevel5() throws FileNotFoundException { // Moderate
+    	Map mapOne;
+    	Map mapTwo;
+		int rows = 24;
+	    int columns = 195;
+	    int[][] sampleMapDataOne = new int[rows][columns];
+	    int[][] sampleMapDataTwo = new int[rows][columns];
+    	levelLoader("Levels/Level_5/Five_Part_1.txt","Levels/Level_5/Five_Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+		mapOne = new Map(sampleMapDataOne, 50);
+		mapTwo = new Map(sampleMapDataTwo, 50);
+		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
+		add(gamePanel); 
+    }
+    
+    public void levelLoader(String Part_1, String Part_2, int[][]Top, int [][]Bottom) throws FileNotFoundException
+    {
+    	int rows = 24;
+	    int columns = 195;
+    	Scanner sc = new Scanner(new BufferedReader(new FileReader(Part_1)));
+
+	      while(sc.hasNextLine()) {
+		         for (int i=0; i<Top.length; i++) {
+		            String[] line = sc.nextLine().trim().split(",");
+		            for (int j=0; j<line.length; j++) {
+		            	Top[i][j] = Integer.parseInt(line[j]);
+		            }
+		         }
+		      }
+	      Scanner sc_2 = new Scanner(new BufferedReader(new FileReader(Part_2)));
+	      while(sc_2.hasNextLine()) {
+		         for (int i=0; i<Bottom.length; i++) {
+		            String[] line = sc_2.nextLine().trim().split(",");
+		            for (int j=0; j<line.length; j++) {
+		            	Bottom[i][j] = Integer.parseInt(line[j]);
+		            }
+		         }
+		      }
+    }
     	 }
 
 
