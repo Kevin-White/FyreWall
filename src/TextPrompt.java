@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 /**
  * The TextPrompt class represents a text prompt with various attributes.
  * Each instance of TextPrompt can have its own text, x and y coordinates.
@@ -6,6 +8,7 @@ public class TextPrompt {
     private String text; // The text of the prompt
     private int x; // The x coordinate of the prompt
     private int y; // The y coordinate of the prompt
+    private Color backgroundColor = new Color(0, 0, 0, 100);
     
     /**
      * Constructor for the TextPrompt class.
@@ -33,6 +36,10 @@ public class TextPrompt {
     public int getY() {
         return y;
     }
+    
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
 
     // Setter methods for the text, x and y coordinates of the prompt
     public void setText(String text) {
@@ -46,4 +53,8 @@ public class TextPrompt {
     public void setY(int y) {
         this.y = y;
     }
+
+	public void setBackgroundColor(Color background) {
+		this.backgroundColor = background;
+	}
 }
