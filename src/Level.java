@@ -307,6 +307,7 @@ public class Level extends JPanel implements ActionListener {
             // If the player chooses to restart, restart the level
             else if (n == JOptionPane.NO_OPTION) {
                 restartLevel();
+                keys[KeyEvent.VK_ESCAPE] = false;
              // Restart the game timer
                 animationTimer.start();
             }
