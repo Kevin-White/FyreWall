@@ -134,7 +134,7 @@ public class Map {
                 int x = col * tileSize;
                 int y = row * tileSize;
                 
-                if (x > xOffset + screenWidth/2 || x < xOffset - screenWidth/2 || y > yOffset + screenHeight/2 || y < yOffset - screenHeight/2) {
+                if (x > xOffset + screenWidth/2 || x < xOffset - screenWidth/2 - 50 || y > yOffset + screenHeight/2 || y < yOffset - screenHeight/2 - 50) {
                     continue; // Skip drawing if outside of screen bounds
                 }
 
