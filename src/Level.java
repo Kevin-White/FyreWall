@@ -357,10 +357,23 @@ public class Level extends JPanel implements ActionListener {
         // Set the font for drawing text prompts
         graphics.setFont(new Font("default", Font.BOLD, 20));
         
-        // Draw each text prompt at its position
+     // Draw each text prompt at its position
         for(int i = 0; i < promptSize; i++) {
-        	graphics.drawString(prompt[i].getText(), prompt[i].getX(), prompt[i].getY());
+            // Set the color to the background color of the prompt
+            graphics.setColor(prompt[i].getBackgroundColor());
+            
+            // Draw a filled rectangle at the position of the text prompt with the width and height of the text
+            int stringWidth = graphics.getFontMetrics().stringWidth(prompt[i].getText());
+            int stringHeight = graphics.getFontMetrics().getHeight();
+            graphics.fillRect(prompt[i].getX(), prompt[i].getY() - stringHeight, stringWidth, stringHeight);
+            
+            // Set the color back to the color of the text
+            graphics.setColor(Color.WHITE); // Or whatever color your text should be
+            
+            // Draw the text prompt
+            graphics.drawString(prompt[i].getText(), prompt[i].getX(), prompt[i].getY());
         }
+
         
         // Draw the player at its position
         player.draw(graphics);

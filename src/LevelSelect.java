@@ -384,7 +384,7 @@ class LevelSelect extends JFrame {
 	        gamePanel.addPrompt("Press \"CTRL\" switch dimensions.", 2000, 300);
 	        gamePanel.addPrompt("Some blocks slow you down...", 2700, 600);
 	        gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
-	        gamePanel.addPrompt("You will need a types of blocks to help you on your way!", 5000, 600); 
+	        gamePanel.addPrompt("You will need all types of blocks to help you on your way!", 5000, 600); 
 	        add(gamePanel); 
     }
 
