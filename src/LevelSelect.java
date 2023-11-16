@@ -44,6 +44,10 @@ class LevelSelect extends JFrame {
         JButton level3Button = new JButton("Level 3");
         JButton level4Button = new JButton("Level 4");
         JButton level5Button = new JButton("Level 5");
+        JButton level6Button = new JButton("Level 6");
+        JButton level7Button = new JButton("Level 7");
+
+
         
         ImageIcon background =  new ImageIcon("menuImages/background.png");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -144,6 +148,38 @@ class LevelSelect extends JFrame {
                 setVisible(true); // Make the frame visible again
             }
         });
+        
+    	level6Button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+					initLevel6();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                layeredPane.setVisible(false);
+                dispose(); // Dispose the frame
+                setUndecorated(true); // Now you can set undecorated state
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true); // Make the frame visible again
+            }
+        });
+    	
+      	level7Button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+					initLevel7();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                layeredPane.setVisible(false);
+                dispose(); // Dispose the frame
+                setUndecorated(true); // Now you can set undecorated state
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true); // Make the frame visible again
+            }
+        });
 
         tutorialButton = mainButtonStyle(tutorialButton);
         level1Button = mainButtonStyle(level1Button);
@@ -151,6 +187,10 @@ class LevelSelect extends JFrame {
         level3Button = mainButtonStyle(level3Button);
         level4Button = mainButtonStyle(level4Button);
         level5Button = mainButtonStyle(level5Button);
+        level6Button = mainButtonStyle(level6Button);
+        level7Button = mainButtonStyle(level7Button);
+
+
 
         
         backButton = backButtonStyle(backButton);
@@ -178,6 +218,12 @@ class LevelSelect extends JFrame {
         
         gbc.gridx = 2; // Set gridx back to 0 for the fourth button
         levelPanel.add(level5Button, gbc); // Add gbc as a parameter
+        
+        gbc.gridx = 0; // Set gridx back to 0 for the fourth button
+        levelPanel.add(level6Button, gbc); // Add gbc as a parameter
+        
+        gbc.gridx = 1; // Set gridx back to 0 for the fourth button
+        levelPanel.add(level7Button, gbc); // Add gbc as a parameter
 
         backButtonPanel.add(backButton); // Add backButton to the backButtonPanel
         backButtonPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
@@ -617,11 +663,38 @@ class LevelSelect extends JFrame {
 		add(gamePanel); 
     }
     
-    public void levelLoader(String Part_1, String Part_2, int[][]Top, int [][]Bottom) throws FileNotFoundException
-    {
-    	int rows = 24;
+    private void initLevel6() throws FileNotFoundException { // Moderate
+    	Map mapOne;
+    	Map mapTwo;
+		int rows = 24;
 	    int columns = 195;
-    	Scanner sc = new Scanner(new BufferedReader(new FileReader(Part_1)));
+	    int[][] sampleMapDataOne = new int[rows][columns];
+	    int[][] sampleMapDataTwo = new int[rows][columns];
+    	levelLoader("Levels/Level_6/Part_1.txt","Levels/Level_6/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+		mapOne = new Map(sampleMapDataOne, 50);
+		mapTwo = new Map(sampleMapDataTwo, 50);
+		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
+		add(gamePanel); 
+    }
+    
+    private void initLevel7() throws FileNotFoundException { // Moderate
+    	Map mapOne;
+    	Map mapTwo;
+		int rows = 24;
+	    int columns = 195;
+	    int[][] sampleMapDataOne = new int[rows][columns];
+	    int[][] sampleMapDataTwo = new int[rows][columns];
+    	levelLoader("Levels/Level_7/Part_1.txt","Levels/Level_7/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+		mapOne = new Map(sampleMapDataOne, 50);
+		mapTwo = new Map(sampleMapDataTwo, 50);
+		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
+		add(gamePanel); 
+    }
+    
+    
+    public void levelLoader(String Part_1, String Part_2, int[][]Top, int [][]Bottom) throws FileNotFoundException // Takes the needed location of the level files as well as the arrays to draw the level.
+    {
+    	Scanner sc = new Scanner(new BufferedReader(new FileReader(Part_1))); // Reads Part 1 and places it into the array
 
 	      while(sc.hasNextLine()) {
 		         for (int i=0; i<Top.length; i++) {
@@ -631,7 +704,7 @@ class LevelSelect extends JFrame {
 		            }
 		         }
 		      }
-	      Scanner sc_2 = new Scanner(new BufferedReader(new FileReader(Part_2)));
+	      Scanner sc_2 = new Scanner(new BufferedReader(new FileReader(Part_2))); // Reads Part 2 and places it into the array
 	      while(sc_2.hasNextLine()) {
 		         for (int i=0; i<Bottom.length; i++) {
 		            String[] line = sc_2.nextLine().trim().split(",");
