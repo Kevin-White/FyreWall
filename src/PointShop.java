@@ -130,6 +130,8 @@ class PointShop extends JFrame {
              if (lockedSkins.contains(imageName)) {
             	 itemCostLocal = itemCost;
                  cost = new JTextField("" + itemCostLocal);
+                 cost.setFont(new Font("Dialog", Font.PLAIN, 15)); 
+                 cost.setHorizontalAlignment(JTextField.CENTER);
                  cost.setEditable(false);
                  if(itemCostLocal <= points.getTotal()) {
                 	cost.setBackground(Color.green);
@@ -138,6 +140,8 @@ class PointShop extends JFrame {
                  }
              }else {
             	 cost = new JTextField("Owned");
+                 cost.setFont(new Font("Dialog", Font.PLAIN, 15)); 
+                 cost.setHorizontalAlignment(JTextField.CENTER);
             	 buyButton.setText("Use");
                  cost.setEditable(false);
                  itemCostLocal = 0;
@@ -246,7 +250,7 @@ class PointShop extends JFrame {
         Font pressStart2P;
 		try {
 			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
-	        pressStart2P = pressStart2P.deriveFont(10f);
+	        pressStart2P = pressStart2P.deriveFont(12f);
 
 		} catch (FontFormatException e) {
 			// TODO Auto-generated catch block

@@ -40,6 +40,10 @@ public class FyreWall extends JFrame {
         
         ImageIcon background =  new ImageIcon("menuImages/background.png");
         
+        ImageIcon logo = new ImageIcon("menuImages/logo.png");
+
+        JLabel logoLabel;
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         JLayeredPane layeredPane = new JLayeredPane();
@@ -51,6 +55,12 @@ public class FyreWall extends JFrame {
         background = new ImageIcon(newimg);
         JLabel backgroundLabel = new JLabel(background);
         backgroundLabel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
+        
+        img = logo.getImage() ;  
+        newimg = img.getScaledInstance(800, 300,  java.awt.Image.SCALE_SMOOTH ) ; 
+        logo = new ImageIcon(newimg);
+        logoLabel = new JLabel(logo);
+        logoLabel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
         
         // Initialize menu
         levelSelectButton.addActionListener(new ActionListener() {
@@ -85,6 +95,7 @@ public class FyreWall extends JFrame {
             }
         });
         
+        logoLabel.setBounds(screenSize.width/2 - logo.getIconWidth()/2, 100, logo.getIconWidth(), logo.getIconHeight());
         levelSelectButton = mainButtonStyle(levelSelectButton);
         pointShopButton = mainButtonStyle(pointShopButton);
         exitButton = mainButtonStyle(exitButton);
@@ -104,9 +115,12 @@ public class FyreWall extends JFrame {
 
      // Add the backgroundLabel to the bottom layer of the layeredPane
      layeredPane.add(backgroundLabel, JLayeredPane.DEFAULT_LAYER);
+     
+     layeredPane.add(logoLabel, JLayeredPane.PALETTE_LAYER);
 
      // Add the menuPanel to the top layer of the layeredPane
      layeredPane.add(menuPanel, JLayeredPane.PALETTE_LAYER);
+
 
         add(layeredPane);
 

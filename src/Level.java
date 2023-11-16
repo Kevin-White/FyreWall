@@ -263,10 +263,13 @@ public class Level extends JPanel implements ActionListener {
                 		+ "However, this is not better then old score of " +  points.getHighScore() + "!", "Congratulations" , JOptionPane.INFORMATION_MESSAGE);
             }
             
-            // Exit the game
-            levelSelect.dispose();
-            levelSelect = new LevelSelect();
+         // Exit the game
+            levelSelect.removeAll(); // Remove all components from levelSelect
+            levelSelect = new LevelSelect(); // Create a new LevelSelect object
+            levelSelect.revalidate(); // Revalidate the levelSelect JPanel
+            levelSelect.repaint(); // Repaint the levelSelect JPanel
             timer.stop();
+
         }
         
         // Check if the wall has passed the player
@@ -299,9 +302,11 @@ public class Level extends JPanel implements ActionListener {
             
             // If the player chooses to exit, exit the game
             if (n == JOptionPane.YES_OPTION) {
-                restartLevel();
-                levelSelect.dispose();
-                levelSelect = new LevelSelect();
+            	// Exit the game
+                levelSelect.removeAll(); // Remove all components from levelSelect
+                levelSelect = new LevelSelect(); // Create a new LevelSelect object
+                levelSelect.revalidate(); // Revalidate the levelSelect JPanel
+                levelSelect.repaint(); // Repaint the levelSelect JPanel
                 timer.stop();
             } 
             // If the player chooses to restart, restart the level
