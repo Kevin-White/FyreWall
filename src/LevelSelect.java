@@ -48,6 +48,7 @@ class LevelSelect extends JFrame {
         JButton level7Button = new JButton("Level 7");
         JButton level8Button = new JButton("Level 8");
         JButton level9Button = new JButton("Level 9");
+        JButton level10Button = new JButton("Level 10");
 
 
 
@@ -215,6 +216,22 @@ class LevelSelect extends JFrame {
                 setVisible(true); // Make the frame visible again
             }
         });
+    	
+    	level10Button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+					initLevel10();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                layeredPane.setVisible(false);
+                dispose(); // Dispose the frame
+                setUndecorated(true); // Now you can set undecorated state
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setVisible(true); // Make the frame visible again
+            }
+        });
 
         tutorialButton = mainButtonStyle(tutorialButton);
         level1Button = mainButtonStyle(level1Button);
@@ -226,7 +243,7 @@ class LevelSelect extends JFrame {
         level7Button = mainButtonStyle(level7Button);
         level8Button = mainButtonStyle(level8Button);
         level9Button = mainButtonStyle(level9Button);
-
+        level10Button = mainButtonStyle(level10Button);
 
 
         
@@ -267,6 +284,9 @@ class LevelSelect extends JFrame {
         
         gbc.gridx = 0; // Set gridx back to 0 for the fourth button
         levelPanel.add(level9Button, gbc); // Add gbc as a parameter
+        
+        gbc.gridx = 1; // Set gridx back to 0 for the fourth button
+        levelPanel.add(level10Button, gbc); // Add gbc as a parameter
 
         backButtonPanel.add(backButton); // Add backButton to the backButtonPanel
         backButtonPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
@@ -730,7 +750,7 @@ class LevelSelect extends JFrame {
     	levelLoader("Levels/Level_7/Part_1.txt","Levels/Level_7/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level7", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     }
     
@@ -744,7 +764,7 @@ class LevelSelect extends JFrame {
     	levelLoader("Levels/Level_8/Part_1.txt","Levels/Level_8/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level8", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     }
     
@@ -758,9 +778,25 @@ class LevelSelect extends JFrame {
     	levelLoader("Levels/Level_9/Part_1.txt","Levels/Level_9/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level8", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     }
+    
+    private void initLevel10() throws FileNotFoundException { // Moderate
+    	Map mapOne;
+    	Map mapTwo;
+		int rows = 24;
+	    int columns = 195;
+	    int[][] sampleMapDataOne = new int[rows][columns];
+	    int[][] sampleMapDataTwo = new int[rows][columns];
+    	levelLoader("Levels/Level_10/Part_1.txt","Levels/Level_10/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+		mapOne = new Map(sampleMapDataOne, 50);
+		mapTwo = new Map(sampleMapDataTwo, 50);
+		Level gamePanel = new Level("Level10", 100, 100, mapOne, mapTwo, this);
+		add(gamePanel); 
+    }
+    
+    
     
     
     public void levelLoader(String Part_1, String Part_2, int[][]Top, int [][]Bottom) throws FileNotFoundException // Takes the needed location of the level files as well as the arrays to draw the level.
