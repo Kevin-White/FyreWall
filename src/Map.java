@@ -1,7 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Image;
@@ -23,8 +21,6 @@ public class Map {
     private Image antiImage;
     private Image resetImage;
     private Image finalImage;
-    private int originalXOffset = 0;
-    private int originalYOffset = 0;
 
 
     /**
