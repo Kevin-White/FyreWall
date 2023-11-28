@@ -1,5 +1,4 @@
 Ghost.png
-mrMoon.png
-mrPython.png
+mrSpicy.png
 sirPlatano.png
-snort.png
+Zombie.png

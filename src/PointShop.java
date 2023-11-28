@@ -23,13 +23,12 @@ class PointShop extends JFrame {
     public PointShop() {
         setLayout(new BorderLayout());
         JPanel pointPanel = new JPanel(new GridBagLayout());
-//        JPanel pointHeader = new JPanel();
-        JPanel moonSkin = new JPanel();
+        JPanel pointHeader = new JPanel();
+        JPanel zombieSkin = new JPanel();
         JPanel ghostSkin = new JPanel();
         JPanel defaultSkin = new JPanel();
         JPanel sirPlatanoSkin = new JPanel();
-        JPanel mrPython = new JPanel();
-        JPanel snortSkin = new JPanel();
+        JPanel mrSpicySkin = new JPanel();
         JButton backButton = new JButton("<-");
         JTextField  pointsLabel = new JTextField (" Points: " + points.getTotal() + " ");
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -78,20 +77,18 @@ class PointShop extends JFrame {
         headerPanel.setOpaque(false);
 
 
+
         defaultSkin = itemPanel(0 , "Default.png");
-        moonSkin = itemPanel(100 , "mrMoon.png");
+        zombieSkin = itemPanel(100 , "Zombie.png");
         ghostSkin = itemPanel(500 , "Ghost.png");
         sirPlatanoSkin = itemPanel(1000, "sirPlatano.png");
-        mrPython = itemPanel(2000, "mrPython.png");
-        snortSkin = itemPanel(4000 , "snort.png");
-
+        mrSpicySkin = itemPanel(2000, "mrSpicy.png");
 
         pointPanel.add(defaultSkin);
-        pointPanel.add(moonSkin);
+        pointPanel.add(zombieSkin);
         pointPanel.add(ghostSkin);
         pointPanel.add(sirPlatanoSkin);
-        pointPanel.add(mrPython);
-        pointPanel.add(snortSkin);
+        pointPanel.add(mrSpicySkin);
 
         pointPanel.setBounds(0, 0, screenSize.width, screenSize.height); // Set bounds to match the layeredPane size
         pointPanel.setOpaque(false); // Make menuPanel transparent

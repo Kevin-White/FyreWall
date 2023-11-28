@@ -18,6 +18,7 @@ import java.awt.Toolkit;
 import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Component;
@@ -326,7 +327,36 @@ class LevelSelect extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true); // Make the frame visible
     }
+    
+    private JButton buttonStyle(JButton button){
+    	ImageIcon buttonIcon = new ImageIcon("menuImages/mainButton.png"); // Load the image
+        Image img = buttonIcon.getImage() ;  
+        Image newimg = img.getScaledInstance(200, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
+        buttonIcon = new ImageIcon(newimg);
+        
+        Font pressStart2P;
+		try {
+			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
+	        pressStart2P = pressStart2P.deriveFont(14f);
 
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
+		}
+    	
+    	button.setIcon(buttonIcon); // Set the button icon
+    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
+    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
+    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+    	button.setContentAreaFilled(false); // Make the button background transparent
+    	button.setBorderPainted(false);
+    	button.setFont(pressStart2P);
+    	
+    	return button;
+    }
     
     private JButton mainButtonStyle(JButton button){
     	ImageIcon buttonIcon = new ImageIcon("menuImages/backButton.png"); // Load the image
