@@ -18,7 +18,6 @@ import java.awt.Toolkit;
 import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Component;
@@ -83,7 +82,12 @@ class LevelSelect extends JFrame {
         // Initialize level selection menu
     	tutorialButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	initTutorialButton();
+            	try {
+            		initTutorialButton();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	layeredPane.setVisible(false);
                 dispose(); // Dispose the frame
                 setUndecorated(true); // Now you can set undecorated state
@@ -327,36 +331,7 @@ class LevelSelect extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true); // Make the frame visible
     }
-    
-    private JButton buttonStyle(JButton button){
-    	ImageIcon buttonIcon = new ImageIcon("menuImages/mainButton.png"); // Load the image
-        Image img = buttonIcon.getImage() ;  
-        Image newimg = img.getScaledInstance(200, 72,  java.awt.Image.SCALE_SMOOTH ) ;  
-        buttonIcon = new ImageIcon(newimg);
-        
-        Font pressStart2P;
-		try {
-			pressStart2P = Font.createFont(Font.TRUETYPE_FONT, new File("menuImages/PressStart2P.ttf"));
-	        pressStart2P = pressStart2P.deriveFont(14f);
 
-		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
-			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			pressStart2P = new Font("Dialog", Font.PLAIN, 12);
-		}
-    	
-    	button.setIcon(buttonIcon); // Set the button icon
-    	button.setHorizontalTextPosition(JButton.CENTER); // Center the text horizontally
-    	button.setVerticalTextPosition(JButton.CENTER); // Center the text vertically
-    	button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
-    	button.setContentAreaFilled(false); // Make the button background transparent
-    	button.setBorderPainted(false);
-    	button.setFont(pressStart2P);
-    	
-    	return button;
-    }
     
     private JButton mainButtonStyle(JButton button){
     	ImageIcon buttonIcon = new ImageIcon("menuImages/backButton.png"); // Load the image
@@ -418,112 +393,77 @@ class LevelSelect extends JFrame {
     	return button;
     }
     
-    private void initTutorialButton() {
+    private void initTutorialButton()throws FileNotFoundException {
     	Map mapOne;
-        Map mapTwo;
-    	
-    	 int[][] sampleMapDataOne = {
-	        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	        };
-	        
-	        int[][] sampleMapDataTwo = {
-	        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-	        		{1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	        };
-	        
-	        mapOne = new Map(sampleMapDataOne, 50); //// Tile size is 100 pixels (adjust as needed)
-	        mapTwo = new Map(sampleMapDataTwo, 50);
-	        // Add the game panel
-	        Level gamePanel = new Level("Tutorial",100, 100, mapOne, mapTwo, this);
-	        gamePanel.addPrompt("Quick Don't let the FyreWall catch you!",200, 100);
-	        gamePanel.addPrompt("Press \"D\" OR \"->\" to move right.",200, 150);
-	        gamePanel.addPrompt("Press \"A\" OR \"<-\" to move left.", 900, 150);
-	        gamePanel.addPrompt("Press \"W\" OR \"^\" to jump.", 1000, 600);
-	        gamePanel.addPrompt("Press \"CTRL\" switch dimensions.", 2000, 300);
-	        gamePanel.addPrompt("Some blocks slow you down...", 2700, 600);
-	        gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
-	        gamePanel.addPrompt("You will need all types of blocks to help you on your way!", 5000, 600); 
-	        add(gamePanel); 
+    	Map mapTwo;
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Tutorial/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Tutorial/Part_2.txt", sampleMapDataTwo);
+		mapOne = new Map(sampleMapDataOne, 50);
+		mapTwo = new Map(sampleMapDataTwo, 50);
+		// Add the game panel
+		Level gamePanel = new Level("Tutorial",100, 100, mapOne, mapTwo, this);
+		gamePanel.addPrompt("Quick Don't let the FyreWall catch you!",200, 100);
+		gamePanel.addPrompt("Press \"D\" OR \"->\" to move right.",200, 150);
+		gamePanel.addPrompt("Press \"A\" OR \"<-\" to move left.", 900, 150);
+		gamePanel.addPrompt("Press \"W\" OR \"^\" to jump.", 1000, 600);
+		gamePanel.addPrompt("Press \"CTRL\" switch dimensions.", 2000, 300);
+		gamePanel.addPrompt("Some blocks slow you down...", 2700, 600);
+		gamePanel.addPrompt("Some blocks speed you up!", 3500, 600);
+		gamePanel.addPrompt("You will need all types of blocks to help you on your way!", 5000, 600); 
+		add(gamePanel); 
     }
 
     private void initLevel1() throws FileNotFoundException {
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_1/Part_1.txt","Levels/Level_1/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_9/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_9/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level1", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     }
 
     private void initLevel2() throws FileNotFoundException {
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_2/Part_1.txt","Levels/Level_2/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_2/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_2/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level2", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     	}
     
     	private void initLevel3() throws FileNotFoundException {
         	Map mapOne;
         	Map mapTwo;
-    		int rows = 24;
-    	    int columns = 195;
-    	    int[][] sampleMapDataOne = new int[rows][columns];
-    	    int[][] sampleMapDataTwo = new int[rows][columns];
-        	levelLoader("Levels/Level_3/Part_1.txt","Levels/Level_3/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+    	    int[][] sampleMapDataOne = new int[1][1];
+    	    int[][] sampleMapDataTwo = new int[1][1];
+    	    sampleMapDataOne = levelLoader("Levels/Level_3/Part_1.txt", sampleMapDataOne);
+    	    sampleMapDataTwo = levelLoader("Levels/Level_3/Part_2.txt", sampleMapDataTwo);
     		mapOne = new Map(sampleMapDataOne, 50);
     		mapTwo = new Map(sampleMapDataTwo, 50);
-    		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
+    		Level gamePanel = new Level("Level3", 100, 100, mapOne, mapTwo, this);
     		add(gamePanel); 
     }
     	
         private void initLevel4() throws FileNotFoundException { // Moderate
         	Map mapOne;
         	Map mapTwo;
-    		int rows = 24;
-    	    int columns = 195;
-    	    int[][] sampleMapDataOne = new int[rows][columns];
-    	    int[][] sampleMapDataTwo = new int[rows][columns];
-        	levelLoader("Levels/Level_9/Part_1.txt","Levels/Level_9/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+    	    int[][] sampleMapDataOne = new int[1][1];
+    	    int[][] sampleMapDataTwo = new int[1][1];
+    	    sampleMapDataOne = levelLoader("Levels/Level_4/Part_1.txt", sampleMapDataOne);
+    	    sampleMapDataTwo = levelLoader("Levels/Level_4/Part_2.txt", sampleMapDataTwo);
     		mapOne = new Map(sampleMapDataOne, 50);
     		mapTwo = new Map(sampleMapDataTwo, 50);
-    		Level gamePanel = new Level("Level8", 100, 100, mapOne, mapTwo, this);
+    		Level gamePanel = new Level("Level4", 100, 100, mapOne, mapTwo, this);
     		add(gamePanel); 
         }
 
@@ -531,11 +471,10 @@ class LevelSelect extends JFrame {
     private void initLevel5() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_5/Five_Part_1.txt","Levels/Level_5/Five_Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_5/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_5/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
@@ -545,11 +484,10 @@ class LevelSelect extends JFrame {
     private void initLevel6() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_6/Part_1.txt","Levels/Level_6/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_6/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_6/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level6", 100, 100, mapOne, mapTwo, this);
@@ -559,11 +497,10 @@ class LevelSelect extends JFrame {
     private void initLevel7() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_7/Part_1.txt","Levels/Level_7/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_7/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_7/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level7", 100, 100, mapOne, mapTwo, this);
@@ -573,11 +510,10 @@ class LevelSelect extends JFrame {
     private void initLevel8() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_8/Part_1.txt","Levels/Level_8/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_8/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_8/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level8", 100, 100, mapOne, mapTwo, this);
@@ -588,14 +524,13 @@ class LevelSelect extends JFrame {
     private void initLevel9() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_4/Part_1.txt","Levels/Level_4/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_9/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_9/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
-		Level gamePanel = new Level("Level5", 100, 100, mapOne, mapTwo, this);
+		Level gamePanel = new Level("Level9", 100, 100, mapOne, mapTwo, this);
 		add(gamePanel); 
     }
     
@@ -604,11 +539,10 @@ class LevelSelect extends JFrame {
     private void initLevel10() throws FileNotFoundException { // Moderate
     	Map mapOne;
     	Map mapTwo;
-		int rows = 24;
-	    int columns = 195;
-	    int[][] sampleMapDataOne = new int[rows][columns];
-	    int[][] sampleMapDataTwo = new int[rows][columns];
-    	levelLoader("Levels/Level_10/Part_1.txt","Levels/Level_10/Part_2.txt", sampleMapDataOne, sampleMapDataTwo);
+	    int[][] sampleMapDataOne = new int[1][1];
+	    int[][] sampleMapDataTwo = new int[1][1];
+	    sampleMapDataOne = levelLoader("Levels/Level_10/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_10/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level10", 100, 100, mapOne, mapTwo, this);
@@ -617,28 +551,36 @@ class LevelSelect extends JFrame {
     
    
     
-    public void levelLoader(String Part_1, String Part_2, int[][]Top, int [][]Bottom) throws FileNotFoundException // Takes the needed location of the level files as well as the arrays to draw the level.
+    public int[][] levelLoader(String file, int[][]mapData) throws FileNotFoundException // Takes the needed location of the level files as well as the arrays to draw the level.
     {
-    	Scanner sc = new Scanner(new BufferedReader(new FileReader(Part_1))); // Reads Part 1 and places it into the array
+    	Scanner sc = new Scanner(new BufferedReader(new FileReader(file))); // Reads Part 1 and places it into the array        
+        int rows = 0;
+        int cols = 0;
+        
+        while(sc.hasNextLine()) {
+            String[] line = sc.nextLine().trim().split(",");
+            rows++;
+            cols = line.length;
+        }   
+        sc.close();
+    	sc = new Scanner(new BufferedReader(new FileReader(file))); // Reads Part 1 and places it into the array        
 
+    	mapData = new int[rows][cols];
+    	
 	      while(sc.hasNextLine()) {
-		         for (int i=0; i<Top.length; i++) {
+		         for (int i=0; i<rows; i++) {
 		            String[] line = sc.nextLine().trim().split(",");
-		            for (int j=0; j<line.length; j++) {
-		            	Top[i][j] = Integer.parseInt(line[j]);
+
+		            for (int j=0; j<cols; j++) {
+		            	mapData[i][j] = Integer.parseInt(line[j]);
+
 		            }
 		         }
 		      }
-	      Scanner sc_2 = new Scanner(new BufferedReader(new FileReader(Part_2))); // Reads Part 2 and places it into the array
-	      while(sc_2.hasNextLine()) {
-		         for (int i=0; i<Bottom.length; i++) {
-		            String[] line = sc_2.nextLine().trim().split(",");
-		            for (int j=0; j<line.length; j++) {
-		            	Bottom[i][j] = Integer.parseInt(line[j]);
-		            }
-		         }
-		      }
+          sc.close();
+          return mapData;
+	       
     }
-    	 }
+}
 
 
