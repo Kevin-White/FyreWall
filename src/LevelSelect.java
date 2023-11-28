@@ -1,6 +1,8 @@
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -68,11 +70,12 @@ class LevelSelect extends JFrame {
     	backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	fyreWall = new FyreWall();
-            	fyreWall.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        super.windowClosed(e);
-                        dispose(); // Dispose the current JFrame here
+
+                // Use SwingUtilities.invokeLater() to ensure LevelSelect is ready
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        // Dispose the current JFrame here
+                    	LevelSelect.this.dispose();
                     }
                 });
             }

@@ -51,11 +51,12 @@ class PointShop extends JFrame {
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 fyreWall = new FyreWall();
-                fyreWall.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        super.windowClosed(e);
-                        dispose(); // Dispose the current JFrame here
+
+                // Use SwingUtilities.invokeLater() to ensure LevelSelect is ready
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        // Dispose the current JFrame here
+                    	PointShop.this.dispose();
                     }
                 });
             }
@@ -183,11 +184,11 @@ class PointShop extends JFrame {
         	            }
         	            
         	            PointShop pointshop = new PointShop();
-        	            pointshop.addWindowListener(new WindowAdapter() {
-                            @Override
-                            public void windowClosed(WindowEvent e) {
-                                super.windowClosed(e);
-                                dispose(); // Dispose the current JFrame here
+                        // Use SwingUtilities.invokeLater() to ensure LevelSelect is ready
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                // Dispose the current JFrame here
+                            	PointShop.this.dispose();
                             }
                         });
         	            
