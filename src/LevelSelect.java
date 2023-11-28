@@ -459,8 +459,8 @@ class LevelSelect extends JFrame {
         	Map mapTwo;
     	    int[][] sampleMapDataOne = new int[1][1];
     	    int[][] sampleMapDataTwo = new int[1][1];
-    	    sampleMapDataOne = levelLoader("Levels/Level_4/Part_1.txt", sampleMapDataOne);
-    	    sampleMapDataTwo = levelLoader("Levels/Level_4/Part_2.txt", sampleMapDataTwo);
+    	    sampleMapDataOne = levelLoader("Levels/Level_9/Part_1.txt", sampleMapDataOne);
+    	    sampleMapDataTwo = levelLoader("Levels/Level_9/Part_2.txt", sampleMapDataTwo);
     		mapOne = new Map(sampleMapDataOne, 50);
     		mapTwo = new Map(sampleMapDataTwo, 50);
     		Level gamePanel = new Level("Level4", 100, 100, mapOne, mapTwo, this);
@@ -526,8 +526,8 @@ class LevelSelect extends JFrame {
     	Map mapTwo;
 	    int[][] sampleMapDataOne = new int[1][1];
 	    int[][] sampleMapDataTwo = new int[1][1];
-	    sampleMapDataOne = levelLoader("Levels/Level_9/Part_1.txt", sampleMapDataOne);
-	    sampleMapDataTwo = levelLoader("Levels/Level_9/Part_2.txt", sampleMapDataTwo);
+	    sampleMapDataOne = levelLoader("Levels/Level_4/Part_1.txt", sampleMapDataOne);
+	    sampleMapDataTwo = levelLoader("Levels/Level_4/Part_2.txt", sampleMapDataTwo);
 		mapOne = new Map(sampleMapDataOne, 50);
 		mapTwo = new Map(sampleMapDataTwo, 50);
 		Level gamePanel = new Level("Level9", 100, 100, mapOne, mapTwo, this);
@@ -582,5 +582,3 @@ class LevelSelect extends JFrame {
 	       
     }
 }
-
-
