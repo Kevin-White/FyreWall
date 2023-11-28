@@ -4,6 +4,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -63,27 +65,29 @@ public class FyreWall extends JFrame {
         // Initialize menu
         levelSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	levelSelect = new LevelSelect();
-                levelSelect.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        super.windowClosed(e);
-                        dispose(); // Dispose the current JFrame here
+                levelSelect = new LevelSelect();
+                // Use SwingUtilities.invokeLater() to ensure LevelSelect is ready
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        // Dispose the current JFrame here
+                    	FyreWall.this.dispose();
                     }
                 });
             }
         });
+
         
         pointShopButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 pointShop = new PointShop();
-                pointShop.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        super.windowClosed(e);
-                        dispose(); // Dispose the current JFrame here
+
+                // Use SwingUtilities.invokeLater() to ensure LevelSelect is ready
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        // Dispose the current JFrame here
+                    	FyreWall.this.dispose();
                     }
-                });                
+                });              
             }
         });
 
