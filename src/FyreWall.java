@@ -6,8 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 
 import java.awt.Component;
 import java.awt.Dimension;

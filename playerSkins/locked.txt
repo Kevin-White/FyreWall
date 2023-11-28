@@ -1,2 +1,5 @@
 mrPython.png
 snort.png
+Ghost.png
+mrMoon.png
+sirPlatano.png
